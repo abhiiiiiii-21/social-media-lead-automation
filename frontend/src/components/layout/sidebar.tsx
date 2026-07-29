@@ -29,9 +29,9 @@ const navigation = [
   {
     title: "Instagram",
     items: [
-      { label: "Search", href: "/instagram/search", icon: Search },
+      { label: "New Campaign", href: "/instagram/new", icon: Search },
       { label: "Campaigns", href: "/instagram/campaigns", icon: Megaphone },
-      { label: "Analytics", href: "/instagram/analytics", icon: BarChart3 },
+      { label: "Results", href: "/instagram/results", icon: BarChart3 },
     ],
   },
   {

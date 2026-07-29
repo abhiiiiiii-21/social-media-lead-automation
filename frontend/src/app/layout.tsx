@@ -12,6 +12,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import QueryProvider from "@/components/providers/query-provider";
+
 export const metadata: Metadata = {
   title: "Social Lead Automation",
   description: "Internal agency social media lead generation & outreach platform",
@@ -28,7 +30,9 @@ export default function RootLayout({
       className={`${geist.variable} ${geistMono.variable} dark h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground font-sans selection:bg-neutral-800 selection:text-white flex flex-col">
-        {children}
+        <QueryProvider>
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );

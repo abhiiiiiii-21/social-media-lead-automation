@@ -1,17 +1,35 @@
-export default function InstagramCampaignsPage() {
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-xl font-bold tracking-tight text-neutral-100">Instagram Campaigns</h1>
-        <p className="text-xs text-neutral-400 mt-1">
-          Configure sequence flows, follow-up rules, and campaign triggers.
-        </p>
-      </div>
+"use client";
 
-      <div className="p-6 rounded-xl border border-dashed border-neutral-800 bg-neutral-900/20 text-center">
-        <span className="text-xs font-mono text-neutral-500">
-          Placeholder Page: /instagram/campaigns
-        </span>
+import React from "react";
+import { PageHeader } from "@/components/layout/page-header";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { CampaignsTable } from "@/components/instagram/campaigns-table";
+import { useScrapingCampaigns } from "@/hooks/use-instagram";
+import { useRouter } from "next/navigation";
+
+export default function InstagramCampaignsPage() {
+  const { data: campaigns, isLoading } = useScrapingCampaigns();
+  const router = useRouter();
+
+  return (
+    <div className="flex flex-col gap-6 pb-8">
+      <PageHeader
+        title="Scraping Campaigns"
+        description="Monitor the progress of your active and past Instagram data extraction jobs."
+      >
+        <Button 
+          size="sm" 
+          className="h-9 gap-1.5 px-4 font-medium" 
+          onClick={() => router.push("/instagram/new")}
+        >
+          <Plus className="h-4 w-4" />
+          <span>New Campaign</span>
+        </Button>
+      </PageHeader>
+
+      <div>
+        <CampaignsTable campaigns={campaigns} isLoading={isLoading} />
       </div>
     </div>
   );

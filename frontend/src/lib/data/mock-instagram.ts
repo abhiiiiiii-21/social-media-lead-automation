@@ -1,0 +1,127 @@
+import { ScrapingCampaign, ScrapedLead } from "../types/instagram";
+
+export const MOCK_SCRAPING_CAMPAIGNS: ScrapingCampaign[] = [
+  {
+    id: "sc_1",
+    name: "NY Designers Extraction",
+    scraperType: "AI Discovery",
+    status: "Completed",
+    targetCount: 150,
+    collectedCount: 142,
+    config: {
+      targetCustomer: "Designers based in New York",
+      minFollowers: 1000,
+      maxFollowers: 50000,
+      profileEnrichment: true,
+    },
+    startedAt: "2024-03-10T10:00:00Z",
+    completedAt: "2024-03-10T10:15:00Z",
+    metrics: {
+      qualified: 110,
+      rejected: 32,
+      websitesFound: 98,
+      emailsFound: 85,
+      phonesFound: 12,
+      averageQualityScore: 88
+    }
+  },
+  {
+    id: "sc_2",
+    name: "SaaS Founders Commenters",
+    scraperType: "Comment Scraper",
+    status: "Completed",
+    targetCount: 500,
+    collectedCount: 412,
+    config: {
+      postUrl: "https://instagram.com/p/xyz",
+      keywordFilter: "startup",
+      profileEnrichment: true,
+    },
+    startedAt: "2024-03-12T09:00:00Z",
+    completedAt: "2024-03-12T09:45:00Z",
+    metrics: {
+      qualified: 250,
+      rejected: 162,
+      websitesFound: 150,
+      emailsFound: 110,
+      phonesFound: 5,
+      averageQualityScore: 72
+    }
+  },
+  {
+    id: "sc_3",
+    name: "Tech Leads Hashtags",
+    scraperType: "Hashtag Scraper",
+    status: "Collecting",
+    targetCount: 2000,
+    collectedCount: 450,
+    config: {
+      hashtags: ["#techstartup", "#saas"],
+      minFollowers: 5000,
+    },
+    startedAt: new Date().toISOString(),
+  }
+];
+
+export const MOCK_SCRAPED_LEADS: ScrapedLead[] = [
+  {
+    id: "lead_1",
+    campaignId: "sc_1",
+    username: "johndoe_designs",
+    fullName: "John Doe",
+    followers: 12500,
+    following: 450,
+    bio: "Digital Designer & Creator 🎨 | Building cool stuff",
+    website: "https://johndoe.design",
+    email: "hello@johndoe.design",
+    phone: null,
+    category: "Design",
+    location: "New York, NY",
+    isBusiness: true,
+    isVerified: false,
+    avatarUrl: "https://i.pravatar.cc/150?u=johndoe_designs",
+    scrapedAt: "2024-03-10T10:02:00Z",
+    status: "New",
+    qualityScore: 95,
+  },
+  {
+    id: "lead_2",
+    campaignId: "sc_1",
+    username: "sarah.uiux",
+    fullName: "Sarah Smith",
+    followers: 8200,
+    following: 1200,
+    bio: "UI/UX Designer | Helping startups grow 🚀",
+    website: "https://sarahsmith.co",
+    email: "sarah@sarahsmith.co",
+    phone: "+1 555-0198",
+    category: "Design",
+    location: "Brooklyn, NY",
+    isBusiness: true,
+    isVerified: true,
+    avatarUrl: "https://i.pravatar.cc/150?u=sarah.uiux",
+    scrapedAt: "2024-03-10T10:03:00Z",
+    status: "New",
+    qualityScore: 82,
+  },
+  {
+    id: "lead_3",
+    campaignId: "sc_2",
+    username: "tech_alex",
+    fullName: "Alex Johnson",
+    followers: 45000,
+    following: 200,
+    bio: "Tech Reviewer | Gadget Lover 📱 | Founder",
+    website: null,
+    email: "alex@techreviews.com",
+    phone: null,
+    category: "Technology",
+    location: "San Francisco, CA",
+    isBusiness: true,
+    isVerified: false,
+    avatarUrl: "https://i.pravatar.cc/150?u=tech_alex",
+    scrapedAt: "2024-03-12T09:15:00Z",
+    status: "Contacted",
+    qualityScore: 65,
+  }
+];
