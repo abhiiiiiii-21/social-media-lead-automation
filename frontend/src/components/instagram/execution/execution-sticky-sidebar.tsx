@@ -65,7 +65,7 @@ export function ExecutionStickySidebar({ simulation }: { simulation: CampaignSim
 
         <div className="p-4 flex flex-col gap-3">
           {isCompleted && (
-            <Button variant="default" className="w-full justify-start font-medium animate-in fade-in zoom-in-95" onClick={() => router.push("/instagram/results")}>
+            <Button variant="default" className="w-full justify-start font-medium animate-in fade-in zoom-in-95" onClick={() => router.push(`/instagram/campaigns/${campaign.id}/results`)}>
               <ExternalLink className="mr-2 h-4 w-4" /> View Results
             </Button>
           )}

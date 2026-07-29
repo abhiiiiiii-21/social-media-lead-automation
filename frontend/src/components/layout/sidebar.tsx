@@ -31,7 +31,6 @@ const navigation = [
     items: [
       { label: "New Campaign", href: "/instagram/new", icon: Search },
       { label: "Campaigns", href: "/instagram/campaigns", icon: Megaphone },
-      { label: "Results", href: "/instagram/results", icon: BarChart3 },
     ],
   },
   {
@@ -39,7 +38,6 @@ const navigation = [
     items: [
       { label: "Search", href: "/linkedin/search", icon: Search },
       { label: "Campaigns", href: "/linkedin/campaigns", icon: Megaphone },
-      { label: "Analytics", href: "/linkedin/analytics", icon: BarChart3 },
     ],
   },
   {
