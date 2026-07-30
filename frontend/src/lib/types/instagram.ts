@@ -4,10 +4,10 @@ export type ScraperType =
   | "Hashtag Scraper"
   | "Profile Scraper";
 
-export type CampaignStatus = "Pending" | "Connecting" | "Collecting" | "Removing Duplicates" | "Enriching" | "Scoring" | "Saving" | "Completed" | "Failed";
+export type CampaignStatus = "Pending" | "Connecting" | "Collecting" | "Filtering" | "Removing Duplicates" | "Enriching" | "Scoring" | "Saving" | "Completed" | "Failed" | "Draft" | "Running" | "Paused";
 
 export interface ScrapingConfig {
-  [key: string]: any;
+  [key: string]: any /* eslint-disable-line @typescript-eslint/no-explicit-any */;
 }
 
 export interface ScrapingMetrics {
@@ -51,4 +51,20 @@ export interface ScrapedLead {
   scrapedAt: string;
   status: "New" | "Contacted" | "Bounced";
   qualityScore: number; // 0 to 100
+}
+
+export interface InstagramProfile {
+  id: string;
+  username: string;
+  avatarUrl: string;
+  fullName?: string;
+  followers?: number;
+  following?: number;
+  bio?: string;
+}
+
+export interface OutreachCampaign {
+  id: string;
+  name: string;
+  status: string;
 }

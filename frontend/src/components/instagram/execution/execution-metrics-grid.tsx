@@ -8,7 +8,7 @@ import { AnimatedCounter } from "@/components/ui/animated-counter";
 export function ExecutionMetricsGrid({ simulation }: { simulation: CampaignSimulation }) {
   const { metrics } = simulation;
 
-  const MetricCard = ({ title, value, icon: Icon, className, isTime = false }: any) => (
+  const MetricCard = ({ title, value, icon: Icon, className, isTime = false }: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => (
     <Card className="rounded-xl border-border/50 bg-background/50 shadow-none hover:bg-muted/10 transition-colors">
       <CardHeader className="pb-2 px-6 pt-5">
         <div className="flex items-center justify-between">

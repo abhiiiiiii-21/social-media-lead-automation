@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {} from "react";
 import { ResultLead } from "../types/results";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
   MoreHorizontal, Globe, Mail, Phone, MapPin, Briefcase, MessageCircle,
-  ArrowUpDown, ExternalLink, Send, Copy, Trash2, Eye, Map, BadgeCheck
+  ArrowUpDown, ExternalLink, Send, Copy, Trash2, Eye, BadgeCheck // eslint-disable-line @typescript-eslint/no-unused-vars
 } from "lucide-react";
 import { 
   DropdownMenu,
@@ -16,10 +16,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { 
-  Tooltip,
-  TooltipContent,
+  Tooltip, // eslint-disable-line @typescript-eslint/no-unused-vars
+  TooltipContent, // eslint-disable-line @typescript-eslint/no-unused-vars
   TooltipProvider,
-  TooltipTrigger,
+  TooltipTrigger, // eslint-disable-line @typescript-eslint/no-unused-vars
 } from "@/components/ui/tooltip";
 import { formatNumber, formatDate, getStatusColor, getScoreColor } from "../utils/formatters";
 import { SortConfig } from "../hooks/useCampaignResults";
@@ -40,29 +40,6 @@ export function ResultsDataTable({
   leads, selectedIds, toggleSelection, toggleAll, onRowClick, sortConfig, handleSort, visibleColumns 
 }: ResultsDataTableProps) {
 
-  const SortableHeader = ({ label, sortKey }: { label: string, sortKey: keyof ResultLead }) => {
-    const isActive = sortConfig?.key === sortKey;
-    return (
-      <div 
-        className={cn("flex items-center gap-1 cursor-pointer hover:text-foreground transition-colors group", isActive && "text-foreground font-semibold")}
-        onClick={() => handleSort(sortKey)}
-      >
-        {label}
-        <ArrowUpDown className={cn("h-3 w-3 text-muted-foreground/30 group-hover:text-muted-foreground", isActive && "text-foreground")} />
-      </div>
-    );
-  };
-
-  const IconTooltip = ({ condition, icon: Icon, activeColor, trueText, falseText }: any) => (
-    <Tooltip>
-      <TooltipTrigger render={<div />}>
-        <Icon className={cn("h-4 w-4", condition ? activeColor : "text-muted-foreground/30")} />
-      </TooltipTrigger>
-      <TooltipContent>
-        {condition ? trueText : falseText}
-      </TooltipContent>
-    </Tooltip>
-  );
 
   return (
     <div className="w-full border border-border/50 rounded-xl bg-background/50 overflow-hidden shadow-sm">
@@ -79,13 +56,13 @@ export function ResultsDataTable({
                   />
                 </th>
                 <th className="px-4 py-3 font-medium whitespace-nowrap min-w-[200px]">Profile</th>
-                {visibleColumns.category && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Category" sortKey="category" /></th>}
-                {visibleColumns.followers && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Followers" sortKey="followers" /></th>}
+                {visibleColumns.category && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Category" sortKey="category" sortConfig={sortConfig} handleSort={handleSort} /></th>}
+                {visibleColumns.followers && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Followers" sortKey="followers" sortConfig={sortConfig} handleSort={handleSort} /></th>}
                 <th className="px-4 py-3 font-medium whitespace-nowrap text-center">Contact Availability</th>
-                {visibleColumns.aiScore && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="AI Score" sortKey="aiScore" /></th>}
-                {visibleColumns.status && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Status" sortKey="status" /></th>}
+                {visibleColumns.aiScore && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="AI Score" sortKey="aiScore" sortConfig={sortConfig} handleSort={handleSort} /></th>}
+                {visibleColumns.status && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Status" sortKey="status" sortConfig={sortConfig} handleSort={handleSort} /></th>}
                 {visibleColumns.source && <th className="px-4 py-3 font-medium whitespace-nowrap">Source</th>}
-                {visibleColumns.dateFound && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Date Found" sortKey="dateFound" /></th>}
+                {visibleColumns.dateFound && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Date Found" sortKey="dateFound" sortConfig={sortConfig} handleSort={handleSort} /></th>}
                 <th className="px-4 py-3 w-[50px]"></th>
               </tr>
             </thead>
@@ -248,3 +225,27 @@ export function ResultsDataTable({
     </div>
   );
 }
+
+const SortableHeader = ({ label, sortKey, sortConfig, handleSort }: { label: string, sortKey: keyof ResultLead, sortConfig: SortConfig | null, handleSort: (key: keyof ResultLead) => void }) => {
+  const isActive = sortConfig?.key === sortKey;
+  return (
+    <div 
+      className={cn("flex items-center gap-1 cursor-pointer hover:text-foreground transition-colors group", isActive && "text-foreground font-semibold")}
+      onClick={() => handleSort(sortKey)}
+    >
+      {label}
+      <ArrowUpDown className={cn("h-3 w-3 text-muted-foreground/30 group-hover:text-muted-foreground", isActive && "text-foreground")} />
+    </div>
+  );
+};
+
+const IconTooltip = ({ condition, icon: Icon, activeColor, trueText, falseText }: { condition: boolean, icon: any, activeColor: string, trueText: string, falseText: string }) => (
+  <Tooltip>
+    <TooltipTrigger render={<div />}>
+      <Icon className={cn("h-4 w-4", condition ? activeColor : "text-muted-foreground/30")} />
+    </TooltipTrigger>
+    <TooltipContent>
+      {condition ? trueText : falseText}
+    </TooltipContent>
+  </Tooltip>
+);

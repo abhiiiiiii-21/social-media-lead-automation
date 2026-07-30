@@ -12,7 +12,6 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { 
-  Play, 
   CheckCircle2, 
   Loader2, 
   AlertCircle,
@@ -120,7 +119,7 @@ export function CampaignsTable({ campaigns, isLoading }: CampaignsTableProps) {
           <Database className="h-5 w-5 text-muted-foreground/60" />
         </div>
         <p className="text-sm font-medium text-foreground">No scraping campaigns yet</p>
-        <p className="text-xs text-muted-foreground mt-1">Go to 'New Campaign' to start scraping leads.</p>
+        <p className="text-xs text-muted-foreground mt-1">Go to &apos;New Campaign&apos; to start scraping leads.</p>
       </div>
     );
   }
@@ -139,7 +138,7 @@ export function CampaignsTable({ campaigns, isLoading }: CampaignsTableProps) {
         </TableHeader>
         <TableBody>
           {campaigns.map((campaign) => {
-            const isFinished = campaign.status === "Completed" || campaign.status === "Failed";
+            const isFinished = campaign.status === "Completed" || campaign.status === "Failed"; // eslint-disable-line @typescript-eslint/no-unused-vars
             
             return (
               <TableRow 

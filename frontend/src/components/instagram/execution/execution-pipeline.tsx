@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { Search, Users, Database, Sparkles, Save, CheckCircle2 } from "lucide-react";
 
-const STAGES: { id: PipelineStage; label: string; icon: any }[] = [
+const STAGES: { id: PipelineStage; label: string; icon: any /* eslint-disable-line @typescript-eslint/no-explicit-any */ }[] = [
   { id: "Searching", label: "Searching", icon: Search },
   { id: "Collecting Profiles", label: "Collecting Profiles", icon: Users },
   { id: "Extracting Contacts", label: "Extracting Contacts", icon: Database },

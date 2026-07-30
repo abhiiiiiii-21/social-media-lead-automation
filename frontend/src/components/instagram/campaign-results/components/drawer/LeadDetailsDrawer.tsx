@@ -1,9 +1,8 @@
 import React from "react";
 import { ResultLead } from "../../types/results";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Copy, ExternalLink, X, MapPin } from "lucide-react";
+import { Send, Copy, ExternalLink, MapPin } from "lucide-react";
 import { ProfilePreview } from "./ProfilePreview";
 import { AiReasoningPanel } from "./AiReasoningPanel";
 import { WebsitePreview } from "./WebsitePreview";

@@ -1,12 +1,11 @@
 "use client";
 
-import React, { Suspense, useState, useRef, useEffect } from "react";
+import React, { Suspense, useState, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowLeft, Upload, CheckCircle2, AlertTriangle, FileText, 
-  Search, Check, Settings, Send, Clock, ChevronLeft, ChevronRight, XCircle, Settings2,
-  Eye, PlayCircle, Download, ShieldCheck, ShieldAlert
+  Check, Clock, ChevronLeft, ChevronRight, Eye, PlayCircle, Download, ShieldCheck, ShieldAlert
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
@@ -448,7 +447,7 @@ function CSVImportWizard() {
             <div className="flex-1 text-sm text-foreground leading-relaxed whitespace-pre-wrap font-medium">
               Hi <span className="bg-primary/20 text-primary px-1 rounded">Jane Doe Real Estate</span>,<br/><br/>
               I came across your profile and really liked your work in real estate...<br/><br/>
-              Since you're active in <span className="bg-primary/20 text-primary px-1 rounded">Miami</span>, I wanted to reach out. I noticed your website <span className="bg-primary/20 text-primary px-1 rounded">janedoe.com</span> could use some lead automation. Let's connect!
+              Since you&apos;re active in <span className="bg-primary/20 text-primary px-1 rounded">Miami</span>, I wanted to reach out. I noticed your website <span className="bg-primary/20 text-primary px-1 rounded">janedoe.com</span> could use some lead automation. Let&apos;s connect!
             </div>
             
             <div className="mt-6 pt-4 border-t border-border/40 flex flex-wrap gap-2">

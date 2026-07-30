@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 import QueryProvider from "@/components/providers/query-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 export const metadata: Metadata = {
   title: "Social Lead Automation",
@@ -27,12 +28,20 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geist.variable} ${geistMono.variable} dark h-full antialiased`}
+      className={`${geist.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full bg-background text-foreground font-sans selection:bg-neutral-800 selection:text-white flex flex-col">
-        <QueryProvider>
-          {children}
-        </QueryProvider>
+      <body className="min-h-full bg-background text-foreground font-sans selection:bg-primary/20 selection:text-foreground flex flex-col">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange={false}
+        >
+          <QueryProvider>
+            {children}
+          </QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -12,7 +12,7 @@ export function ExecutionStickySidebar({ simulation }: { simulation: CampaignSim
   if (!campaign) return null;
 
   const isRunning = !["Completed", "Failed", "Paused", "Pending"].includes(status as any);
-  const isPaused = status === ("Paused" as any);
+  const isPaused = status === ("Paused" as any); // eslint-disable-line @typescript-eslint/no-unused-vars
   const isCompleted = status === "Completed";
   const isFailed = status === "Failed";
 

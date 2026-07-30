@@ -5,17 +5,12 @@ import { usePathname } from "next/navigation";
 import { MobileSidebar } from "./mobile-sidebar";
 import { SearchBar } from "./search-bar";
 import { ThemeToggle } from "./theme-toggle";
-import { ProfileMenu } from "./profile-menu";
-import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Fragment } from "react";
+  } from "@/components/ui/breadcrumb";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -35,33 +30,10 @@ export function Navbar() {
           <Breadcrumb>
             <BreadcrumbList className="sm:gap-2.5">
               <BreadcrumbItem>
-                <BreadcrumbLink href="/dashboard" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                  Internal
-                </BreadcrumbLink>
+                <BreadcrumbPage className="text-[14px] font-semibold text-foreground tracking-tight">
+                  {paths.length > 0 ? formatPath(paths[paths.length - 1]) : "Dashboard"}
+                </BreadcrumbPage>
               </BreadcrumbItem>
-              {paths.length > 0 && <BreadcrumbSeparator className="opacity-40" />}
-              
-              {paths.map((path, index) => {
-                const href = `/${paths.slice(0, index + 1).join("/")}`;
-                const isLast = index === paths.length - 1;
-                
-                return (
-                  <Fragment key={path}>
-                    <BreadcrumbItem>
-                      {isLast ? (
-                        <BreadcrumbPage className="text-sm font-semibold text-foreground">
-                          {formatPath(path)}
-                        </BreadcrumbPage>
-                      ) : (
-                        <BreadcrumbLink href={href} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                          {formatPath(path)}
-                        </BreadcrumbLink>
-                      )}
-                    </BreadcrumbItem>
-                    {!isLast && <BreadcrumbSeparator className="opacity-40" />}
-                  </Fragment>
-                );
-              })}
             </BreadcrumbList>
           </Breadcrumb>
         </div>
@@ -70,7 +42,6 @@ export function Navbar() {
       <div className="flex items-center gap-3 sm:gap-4">
         <SearchBar />
         <ThemeToggle />
-        <ProfileMenu />
       </div>
     </header>
   );

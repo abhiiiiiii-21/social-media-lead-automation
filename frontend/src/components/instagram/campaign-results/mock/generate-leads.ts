@@ -1,3 +1,8 @@
+/**
+ * @BACKEND_REPLACEMENT_TARGET
+ * This file contains MOCK DATA used for frontend development.
+ * It should be removed and replaced with real API calls during backend integration.
+ */
 import { ResultLead, HealthStatus, QualificationStatus, LeadSource, EnrichmentStatus, Tag } from "../types/results";
 import { BUSINESS_CATEGORIES, COUNTRIES } from "../constants/filters";
 
@@ -32,8 +37,8 @@ const REJECTS = [
 ];
 
 const SOURCES: LeadSource[] = ["AI Discovery", "Profile Scraper", "Hashtag Scraper", "Comment Scraper", "Similar Accounts", "Followers", "Following"];
-const STATUSES: QualificationStatus[] = ["Qualified", "Rejected", "Needs Review", "Contacted"];
-const HEALTHS: HealthStatus[] = ["Excellent", "Good", "Average", "Poor"];
+const STATUSES: QualificationStatus[] = ["Qualified", "Rejected", "Needs Review", "Contacted"]; // eslint-disable-line @typescript-eslint/no-unused-vars
+const HEALTHS: HealthStatus[] = ["Excellent", "Good", "Average", "Poor"]; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 function randomElement<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];

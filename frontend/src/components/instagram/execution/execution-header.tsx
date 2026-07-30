@@ -2,7 +2,7 @@ import React from "react";
 import { CampaignSimulation } from "@/hooks/use-campaign-simulation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Loader2, PlayCircle, PauseCircle, CheckCircle2, AlertCircle } from "lucide-react";
+import { ArrowLeft, Loader2, PauseCircle, CheckCircle2, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function ExecutionHeader({ simulation }: { simulation: CampaignSimulation }) {

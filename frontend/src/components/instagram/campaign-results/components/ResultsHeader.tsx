@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Settings, Download, RefreshCcw, ArrowLeft, ChevronRight } from "lucide-react";
+import { Settings, Download, RefreshCcw, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { CampaignSettingsDrawer } from "./drawer/CampaignSettingsDrawer";
 

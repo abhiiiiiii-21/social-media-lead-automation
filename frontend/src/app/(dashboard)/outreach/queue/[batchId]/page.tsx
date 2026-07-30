@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowLeft, FileText, Send, MoreHorizontal, Search, CheckCircle2,
-  Inbox, XCircle, LayoutTemplate, Trash2, Mail, PlayCircle, 
-  PauseCircle, Settings, Download, Activity, Eye, Info, Clock, Check, Users, RefreshCcw, AlertTriangle, Percent
+  Inbox, XCircle, LayoutTemplate, Trash2, PlayCircle, 
+  PauseCircle, Download, Activity, Eye, Info, Clock, Check, Users, RefreshCcw, AlertTriangle, Percent
 } from "lucide-react";
 import { FaInstagram } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
@@ -174,7 +174,7 @@ export default function OutreachDashboardPage() {
   const [dashboardState, setDashboardState] = useState<DashboardState>("Running");
   const [hasTemplate, setHasTemplate] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(""); // eslint-disable-line @typescript-eslint/no-unused-vars // eslint-disable-line @typescript-eslint/no-unused-vars
   const [selectedLeads, setSelectedLeads] = useState<Set<string>>(new Set());
   const [selectedLeadIdForDrawer, setSelectedLeadIdForDrawer] = useState<string | null>(null);
 

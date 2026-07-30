@@ -33,7 +33,7 @@ const AI_EXAMPLES = [
 
 export function ScraperConfigForm({ type, config, setConfig }: ScraperConfigFormProps) {
   
-  const updateConfig = (key: string, value: any) => {
+  const updateConfig = (key: string, value: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => {
     setConfig({ ...config, [key]: value });
   };
 

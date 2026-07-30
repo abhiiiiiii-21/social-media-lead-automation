@@ -21,7 +21,7 @@ interface CampaignDetailsProps {
   campaign: OutreachCampaign;
 }
 
-export function CampaignDetails({ campaign }: CampaignDetailsProps) {
+export function CampaignDetails({}: CampaignDetailsProps) {
   const [selectedProfile, setSelectedProfile] = useState<InstagramProfile | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 

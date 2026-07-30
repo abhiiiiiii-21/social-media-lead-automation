@@ -10,8 +10,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
+  } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { navigation } from "./sidebar";
 import { SidebarItem } from "./sidebar-item";

@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { 
   Search, Plus, LayoutTemplate, MoreVertical, Copy, 
-  Trash2, Save, ArrowLeft, Settings2, Filter, 
+  Trash2, Save, ArrowLeft, Filter, 
   User, Briefcase, MapPin, Users, CheckCircle2, Circle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -131,7 +131,6 @@ const VARIABLE_GROUPS = [
 ];
 
 // ------------------------------------------------------------------
-// TEMPLATE CARD (Memoized for performance)
 // ------------------------------------------------------------------
 const TemplateCard = React.memo(({ template, onClick }: { template: Template, onClick: () => void }) => {
   return (
@@ -279,7 +278,7 @@ export default function TemplatesPage() {
     }, 0);
   };
 
-  const renderPreview = (text: string, lead: any) => {
+  const renderPreview = (text: string, lead: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) => {
     let result = text;
     Object.keys(lead).forEach(key => {
       if (key === 'id' || key === 'name') return;

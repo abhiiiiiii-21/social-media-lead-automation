@@ -25,15 +25,14 @@ export function SidebarItem({ label, href, icon: Icon, onClick }: SidebarItemPro
   const pathname = usePathname();
   const { collapsed } = useSidebar();
   
-  // Very simple active check. In a real app, you might check if pathname.startsWith(href)
   const isActive = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
 
-  const content = (
+  const linkElement = (
     <Link
       href={href}
       onClick={onClick}
       className={cn(
-        "relative flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 outline-none",
+        "relative flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all duration-150 outline-none cursor-pointer",
         isActive
           ? "text-foreground"
           : "text-muted-foreground hover:text-foreground hover:bg-muted/30",
@@ -54,7 +53,7 @@ export function SidebarItem({ label, href, icon: Icon, onClick }: SidebarItemPro
       )}
       <Icon
         className={cn(
-          "flex-shrink-0 z-10 transition-colors duration-200",
+          "flex-shrink-0 z-10 transition-colors duration-150",
           collapsed ? "h-4 w-4" : "h-[18px] w-[18px]",
           isActive ? "text-foreground" : "text-muted-foreground"
         )}
@@ -68,10 +67,10 @@ export function SidebarItem({ label, href, icon: Icon, onClick }: SidebarItemPro
 
   if (collapsed) {
     return (
-      <TooltipProvider delayDuration={0}>
+      <TooltipProvider delay={0}>
         <Tooltip>
-          <TooltipTrigger asChild>
-            {content}
+          <TooltipTrigger render={<div />}>
+            {linkElement}
           </TooltipTrigger>
           <TooltipContent side="right" className="ml-2 font-medium">
             {label}
@@ -81,5 +80,5 @@ export function SidebarItem({ label, href, icon: Icon, onClick }: SidebarItemPro
     );
   }
 
-  return content;
+  return linkElement;
 }

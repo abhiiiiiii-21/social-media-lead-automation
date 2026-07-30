@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { PageHeader } from "@/components/layout/page-header";
 import { 
-  Plus, RefreshCw, Inbox, Layers, Settings2, 
-  UserCheck, AlertTriangle, Send, FileText, Calendar, Clock, Sparkles, CheckCircle2, ArrowRight
+  Plus, RefreshCw, Inbox, Layers, UserCheck, AlertTriangle, Send, FileText, Clock, ArrowRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
@@ -109,7 +107,7 @@ export default function DashboardPage() {
               {RUNNING_CAMPAIGNS.map((campaign) => (
                 <div 
                   key={campaign.id} 
-                  className="flex flex-col p-4 rounded-xl border border-border/40 bg-background shadow-sm hover:border-foreground/20 transition-all duration-200 group"
+                  className="flex flex-col p-4 rounded-xl border border-border/40 bg-background shadow-sm hover:border-foreground/20 cursor-pointer transition-all duration-200 group"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex flex-col gap-1.5">
@@ -169,7 +167,7 @@ export default function DashboardPage() {
           
           {/* TODAY'S AUTOMATION */}
           <div className="flex flex-col p-5 rounded-xl border border-border/40 bg-background shadow-sm gap-4">
-            <h3 className="font-semibold text-sm">Today's Automation</h3>
+            <h3 className="font-semibold text-sm">Today&apos;s Automation</h3>
             <div className="grid grid-cols-2 gap-3">
               <div className="flex flex-col gap-0.5 p-3 rounded-lg bg-muted/20 border border-border/40">
                 <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Messages Sent</span>

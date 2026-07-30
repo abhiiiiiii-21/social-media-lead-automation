@@ -43,7 +43,7 @@ export function ExecutionTabs({ simulation }: { simulation: CampaignSimulation }
       <TabsContent value="logs" className="mt-4">
         <Card className="rounded-xl border-border/50 bg-black shadow-none overflow-hidden">
           <CardContent className="p-0">
-            <div className="bg-[#0D0D0D] p-4 h-[300px] overflow-y-auto font-mono text-[11px] leading-relaxed text-muted-foreground selection:bg-blue-500/30">
+            <div className="bg-muted/30 dark:bg-muted/20 p-4 h-[300px] overflow-y-auto font-mono text-[11px] leading-relaxed text-muted-foreground selection:bg-blue-500/30">
               {activityLogs.map((log) => (
                 <div key={log.id} className="flex gap-4 hover:bg-white/5 px-2 py-0.5 rounded transition-colors">
                   <span className="text-blue-400/70 shrink-0">

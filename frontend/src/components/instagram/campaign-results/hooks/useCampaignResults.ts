@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ResultLead } from "../types/results";
 import { generateMockLeads } from "../mock/generate-leads";
 
@@ -135,10 +135,10 @@ export function useCampaignResults() {
 
     if (sortConfig !== null) {
       result.sort((a, b) => {
-        const valA = a[sortConfig.key];
-        const valB = b[sortConfig.key];
+        const valA = a[sortConfig.key] as any;
+        const valB = b[sortConfig.key] as any;
         
-        if (valA === null || valB === null) return 0;
+        if (valA == null || valB == null) return 0;
         
         if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
         if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;

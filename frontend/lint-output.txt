@@ -1,0 +1,821 @@
+
+> frontend@0.1.0 lint
+> eslint
+
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/app/(dashboard)/dashboard/page.tsx
+    4:10  warning  'PageHeader' is defined but never used                           @typescript-eslint/no-unused-vars
+    6:35  warning  'Settings2' is defined but never used                            @typescript-eslint/no-unused-vars
+    7:45  warning  'Calendar' is defined but never used                             @typescript-eslint/no-unused-vars
+    7:62  warning  'Sparkles' is defined but never used                             @typescript-eslint/no-unused-vars
+    7:72  warning  'CheckCircle2' is defined but never used                         @typescript-eslint/no-unused-vars
+  172:56  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/app/(dashboard)/outreach/queue/[batchId]/page.tsx
+    8:43  warning  'Mail' is defined but never used                     @typescript-eslint/no-unused-vars
+    9:16  warning  'Settings' is defined but never used                 @typescript-eslint/no-unused-vars
+  177:10  warning  'searchQuery' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  177:23  warning  'setSearchQuery' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/app/(dashboard)/outreach/queue/new/import/csv/page.tsx
+    3:45   warning  'useEffect' is defined but never used                            @typescript-eslint/no-unused-vars
+    8:3    warning  'Search' is defined but never used                               @typescript-eslint/no-unused-vars
+    8:18   warning  'Settings' is defined but never used                             @typescript-eslint/no-unused-vars
+    8:28   warning  'Send' is defined but never used                                 @typescript-eslint/no-unused-vars
+    8:68   warning  'XCircle' is defined but never used                              @typescript-eslint/no-unused-vars
+    8:77   warning  'Settings2' is defined but never used                            @typescript-eslint/no-unused-vars
+  451:24   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  451:268  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/app/(dashboard)/outreach/queue/page.tsx
+  4:52  warning  'MessageSquareReply' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/app/(dashboard)/outreach/templates/page.tsx
+    6:28   warning  'Settings2' is defined but never used     @typescript-eslint/no-unused-vars
+  282:46   error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  465:106  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  476:106  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/app/(dashboard)/settings/page.tsx
+  25:10  warning  'cn' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-details.tsx
+  24:35  warning  'campaign' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsBulkActionBar.tsx
+  3:34  warning  'X' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx
+   1:17   warning  'useState' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           @typescript-eslint/no-unused-vars
+   9:55   warning  'Map' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+  56:85   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-explicit-any
+  82:102  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx:82:102
+  80 |                 </th>
+  81 |                 <th className="px-4 py-3 font-medium whitespace-nowrap min-w-[200px]">Profile</th>
+> 82 |                 {visibleColumns.category && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Category" sortKey="category" /></th>}
+     |                                                                                                      ^^^^^^^^^^^^^^ This component is created during render
+  83 |                 {visibleColumns.followers && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Followers" sortKey="followers" /></th>}
+  84 |                 <th className="px-4 py-3 font-medium whitespace-nowrap text-center">Contact Availability</th>
+  85 |                 {visibleColumns.aiScore && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="AI Score" sortKey="aiScore" /></th>}
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx:43:26
+  41 | }: ResultsDataTableProps) {
+  42 |
+> 43 |   const SortableHeader = ({ label, sortKey }: { label: string, sortKey: keyof ResultLead }) => {
+     |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 44 |     const isActive = sortConfig?.key === sortKey;
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 45 |     return (
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |     );
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 54 |   };
+     | ^^^^ The component is created during render here
+  55 |
+  56 |   const IconTooltip = ({ condition, icon: Icon, activeColor, trueText, falseText }: any) => (
+  57 |     <Tooltip>                                                                                                                                                      react-hooks/static-components
+  83:103  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx:83:103
+  81 |                 <th className="px-4 py-3 font-medium whitespace-nowrap min-w-[200px]">Profile</th>
+  82 |                 {visibleColumns.category && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Category" sortKey="category" /></th>}
+> 83 |                 {visibleColumns.followers && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Followers" sortKey="followers" /></th>}
+     |                                                                                                       ^^^^^^^^^^^^^^ This component is created during render
+  84 |                 <th className="px-4 py-3 font-medium whitespace-nowrap text-center">Contact Availability</th>
+  85 |                 {visibleColumns.aiScore && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="AI Score" sortKey="aiScore" /></th>}
+  86 |                 {visibleColumns.status && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Status" sortKey="status" /></th>}
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx:43:26
+  41 | }: ResultsDataTableProps) {
+  42 |
+> 43 |   const SortableHeader = ({ label, sortKey }: { label: string, sortKey: keyof ResultLead }) => {
+     |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 44 |     const isActive = sortConfig?.key === sortKey;
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 45 |     return (
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |     );
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 54 |   };
+     | ^^^^ The component is created during render here
+  55 |
+  56 |   const IconTooltip = ({ condition, icon: Icon, activeColor, trueText, falseText }: any) => (
+  57 |     <Tooltip>                react-hooks/static-components
+  85:101  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx:85:101
+  83 |                 {visibleColumns.followers && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Followers" sortKey="followers" /></th>}
+  84 |                 <th className="px-4 py-3 font-medium whitespace-nowrap text-center">Contact Availability</th>
+> 85 |                 {visibleColumns.aiScore && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="AI Score" sortKey="aiScore" /></th>}
+     |                                                                                                     ^^^^^^^^^^^^^^ This component is created during render
+  86 |                 {visibleColumns.status && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Status" sortKey="status" /></th>}
+  87 |                 {visibleColumns.source && <th className="px-4 py-3 font-medium whitespace-nowrap">Source</th>}
+  88 |                 {visibleColumns.dateFound && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Date Found" sortKey="dateFound" /></th>}
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx:43:26
+  41 | }: ResultsDataTableProps) {
+  42 |
+> 43 |   const SortableHeader = ({ label, sortKey }: { label: string, sortKey: keyof ResultLead }) => {
+     |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 44 |     const isActive = sortConfig?.key === sortKey;
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 45 |     return (
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |     );
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 54 |   };
+     | ^^^^ The component is created during render here
+  55 |
+  56 |   const IconTooltip = ({ condition, icon: Icon, activeColor, trueText, falseText }: any) => (
+  57 |     <Tooltip>  react-hooks/static-components
+  86:100  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx:86:100
+  84 |                 <th className="px-4 py-3 font-medium whitespace-nowrap text-center">Contact Availability</th>
+  85 |                 {visibleColumns.aiScore && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="AI Score" sortKey="aiScore" /></th>}
+> 86 |                 {visibleColumns.status && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Status" sortKey="status" /></th>}
+     |                                                                                                    ^^^^^^^^^^^^^^ This component is created during render
+  87 |                 {visibleColumns.source && <th className="px-4 py-3 font-medium whitespace-nowrap">Source</th>}
+  88 |                 {visibleColumns.dateFound && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Date Found" sortKey="dateFound" /></th>}
+  89 |                 <th className="px-4 py-3 w-[50px]"></th>
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx:43:26
+  41 | }: ResultsDataTableProps) {
+  42 |
+> 43 |   const SortableHeader = ({ label, sortKey }: { label: string, sortKey: keyof ResultLead }) => {
+     |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 44 |     const isActive = sortConfig?.key === sortKey;
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 45 |     return (
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |     );
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 54 |   };
+     | ^^^^ The component is created during render here
+  55 |
+  56 |   const IconTooltip = ({ condition, icon: Icon, activeColor, trueText, falseText }: any) => (
+  57 |     <Tooltip>                                                                                                              react-hooks/static-components
+  88:103  error    Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx:88:103
+  86 |                 {visibleColumns.status && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Status" sortKey="status" /></th>}
+  87 |                 {visibleColumns.source && <th className="px-4 py-3 font-medium whitespace-nowrap">Source</th>}
+> 88 |                 {visibleColumns.dateFound && <th className="px-4 py-3 font-medium whitespace-nowrap"><SortableHeader label="Date Found" sortKey="dateFound" /></th>}
+     |                                                                                                       ^^^^^^^^^^^^^^ This component is created during render
+  89 |                 <th className="px-4 py-3 w-[50px]"></th>
+  90 |               </tr>
+  91 |             </thead>
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsDataTable.tsx:43:26
+  41 | }: ResultsDataTableProps) {
+  42 |
+> 43 |   const SortableHeader = ({ label, sortKey }: { label: string, sortKey: keyof ResultLead }) => {
+     |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 44 |     const isActive = sortConfig?.key === sortKey;
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 45 |     return (
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 53 |     );
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 54 |   };
+     | ^^^^ The component is created during render here
+  55 |
+  56 |   const IconTooltip = ({ condition, icon: Icon, activeColor, trueText, falseText }: any) => (
+  57 |     <Tooltip>                                                                                                                                                                                                                                                                                                                                               react-hooks/static-components
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/ResultsHeader.tsx
+  4:42  warning  'ArrowLeft' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/LeadDetailsDrawer.tsx
+   3:56  warning  'SheetClose' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   5:10  warning  'ScrollArea' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   6:36  warning  'X' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+  26:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/LeadDetailsDrawer.tsx:26:7
+  24 |     const found = leads.find(l => l.id === leadId);
+  25 |     if (found) {
+> 26 |       setRenderedLead(found);
+     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  27 |     }
+  28 |   }, [leadId, leads]);
+  29 |  react-hooks/set-state-in-effect
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx
+  18:52  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-explicit-any
+  46:10  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:46:10
+  44 |
+  45 |       <div className="grid grid-cols-3 gap-2 mt-2">
+> 46 |         <ScoreCard label="SEO" score={analysis.seo} icon={SearchCode} />
+     |          ^^^^^^^^^ This component is created during render
+  47 |         <ScoreCard label="Performance" score={analysis.performance} icon={Zap} />
+  48 |         <ScoreCard label="Mobile" score={analysis.mobile} icon={MonitorSmartphone} />
+  49 |         <ScoreCard label="Accessibility" score={analysis.accessibility} icon={Activity} />
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:18:21
+  16 |   };
+  17 |
+> 18 |   const ScoreCard = ({ label, score, icon: Icon }: any) => (
+     |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |     <div className="flex flex-col items-center p-2 rounded-lg border border-border/50 bg-background">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |       <Icon className="h-3.5 w-3.5 text-muted-foreground mb-1" />
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |       <span className={cn("text-sm font-bold font-mono px-1.5 rounded", getScoreColor(score))}>{score}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |       <span className="text-[9px] text-muted-foreground uppercase mt-1 text-center">{label}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |     </div>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   );
+     | ^^^^ The component is created during render here
+  25 |
+  26 |   return (
+  27 |     <div className="flex flex-col gap-3 p-4 border border-border/50 rounded-xl bg-muted/5">                                                                                                                 react-hooks/static-components
+  47:10  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:47:10
+  45 |       <div className="grid grid-cols-3 gap-2 mt-2">
+  46 |         <ScoreCard label="SEO" score={analysis.seo} icon={SearchCode} />
+> 47 |         <ScoreCard label="Performance" score={analysis.performance} icon={Zap} />
+     |          ^^^^^^^^^ This component is created during render
+  48 |         <ScoreCard label="Mobile" score={analysis.mobile} icon={MonitorSmartphone} />
+  49 |         <ScoreCard label="Accessibility" score={analysis.accessibility} icon={Activity} />
+  50 |         <ScoreCard label="Design" score={analysis.design} icon={Layout} />
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:18:21
+  16 |   };
+  17 |
+> 18 |   const ScoreCard = ({ label, score, icon: Icon }: any) => (
+     |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |     <div className="flex flex-col items-center p-2 rounded-lg border border-border/50 bg-background">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |       <Icon className="h-3.5 w-3.5 text-muted-foreground mb-1" />
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |       <span className={cn("text-sm font-bold font-mono px-1.5 rounded", getScoreColor(score))}>{score}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |       <span className="text-[9px] text-muted-foreground uppercase mt-1 text-center">{label}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |     </div>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   );
+     | ^^^^ The component is created during render here
+  25 |
+  26 |   return (
+  27 |     <div className="flex flex-col gap-3 p-4 border border-border/50 rounded-xl bg-muted/5">                                      react-hooks/static-components
+  48:10  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:48:10
+  46 |         <ScoreCard label="SEO" score={analysis.seo} icon={SearchCode} />
+  47 |         <ScoreCard label="Performance" score={analysis.performance} icon={Zap} />
+> 48 |         <ScoreCard label="Mobile" score={analysis.mobile} icon={MonitorSmartphone} />
+     |          ^^^^^^^^^ This component is created during render
+  49 |         <ScoreCard label="Accessibility" score={analysis.accessibility} icon={Activity} />
+  50 |         <ScoreCard label="Design" score={analysis.design} icon={Layout} />
+  51 |         <ScoreCard label="Conversion" score={analysis.conversionScore} icon={Target} />
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:18:21
+  16 |   };
+  17 |
+> 18 |   const ScoreCard = ({ label, score, icon: Icon }: any) => (
+     |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |     <div className="flex flex-col items-center p-2 rounded-lg border border-border/50 bg-background">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |       <Icon className="h-3.5 w-3.5 text-muted-foreground mb-1" />
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |       <span className={cn("text-sm font-bold font-mono px-1.5 rounded", getScoreColor(score))}>{score}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |       <span className="text-[9px] text-muted-foreground uppercase mt-1 text-center">{label}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |     </div>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   );
+     | ^^^^ The component is created during render here
+  25 |
+  26 |   return (
+  27 |     <div className="flex flex-col gap-3 p-4 border border-border/50 rounded-xl bg-muted/5">  react-hooks/static-components
+  49:10  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:49:10
+  47 |         <ScoreCard label="Performance" score={analysis.performance} icon={Zap} />
+  48 |         <ScoreCard label="Mobile" score={analysis.mobile} icon={MonitorSmartphone} />
+> 49 |         <ScoreCard label="Accessibility" score={analysis.accessibility} icon={Activity} />
+     |          ^^^^^^^^^ This component is created during render
+  50 |         <ScoreCard label="Design" score={analysis.design} icon={Layout} />
+  51 |         <ScoreCard label="Conversion" score={analysis.conversionScore} icon={Target} />
+  52 |       </div>
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:18:21
+  16 |   };
+  17 |
+> 18 |   const ScoreCard = ({ label, score, icon: Icon }: any) => (
+     |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |     <div className="flex flex-col items-center p-2 rounded-lg border border-border/50 bg-background">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |       <Icon className="h-3.5 w-3.5 text-muted-foreground mb-1" />
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |       <span className={cn("text-sm font-bold font-mono px-1.5 rounded", getScoreColor(score))}>{score}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |       <span className="text-[9px] text-muted-foreground uppercase mt-1 text-center">{label}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |     </div>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   );
+     | ^^^^ The component is created during render here
+  25 |
+  26 |   return (
+  27 |     <div className="flex flex-col gap-3 p-4 border border-border/50 rounded-xl bg-muted/5">                                                              react-hooks/static-components
+  50:10  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:50:10
+  48 |         <ScoreCard label="Mobile" score={analysis.mobile} icon={MonitorSmartphone} />
+  49 |         <ScoreCard label="Accessibility" score={analysis.accessibility} icon={Activity} />
+> 50 |         <ScoreCard label="Design" score={analysis.design} icon={Layout} />
+     |          ^^^^^^^^^ This component is created during render
+  51 |         <ScoreCard label="Conversion" score={analysis.conversionScore} icon={Target} />
+  52 |       </div>
+  53 |     </div>
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:18:21
+  16 |   };
+  17 |
+> 18 |   const ScoreCard = ({ label, score, icon: Icon }: any) => (
+     |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |     <div className="flex flex-col items-center p-2 rounded-lg border border-border/50 bg-background">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |       <Icon className="h-3.5 w-3.5 text-muted-foreground mb-1" />
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |       <span className={cn("text-sm font-bold font-mono px-1.5 rounded", getScoreColor(score))}>{score}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |       <span className="text-[9px] text-muted-foreground uppercase mt-1 text-center">{label}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |     </div>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   );
+     | ^^^^ The component is created during render here
+  25 |
+  26 |   return (
+  27 |     <div className="flex flex-col gap-3 p-4 border border-border/50 rounded-xl bg-muted/5">                                                                                                                                     react-hooks/static-components
+  51:10  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:51:10
+  49 |         <ScoreCard label="Accessibility" score={analysis.accessibility} icon={Activity} />
+  50 |         <ScoreCard label="Design" score={analysis.design} icon={Layout} />
+> 51 |         <ScoreCard label="Conversion" score={analysis.conversionScore} icon={Target} />
+     |          ^^^^^^^^^ This component is created during render
+  52 |       </div>
+  53 |     </div>
+  54 |   );
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/components/drawer/WebsitePreview.tsx:18:21
+  16 |   };
+  17 |
+> 18 |   const ScoreCard = ({ label, score, icon: Icon }: any) => (
+     |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |     <div className="flex flex-col items-center p-2 rounded-lg border border-border/50 bg-background">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 20 |       <Icon className="h-3.5 w-3.5 text-muted-foreground mb-1" />
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |       <span className={cn("text-sm font-bold font-mono px-1.5 rounded", getScoreColor(score))}>{score}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 22 |       <span className="text-[9px] text-muted-foreground uppercase mt-1 text-center">{label}</span>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 23 |     </div>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 24 |   );
+     | ^^^^ The component is created during render here
+  25 |
+  26 |   return (
+  27 |     <div className="flex flex-col gap-3 p-4 border border-border/50 rounded-xl bg-muted/5">                                                                                                                                                                                                                      react-hooks/static-components
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/hooks/useCampaignResults.ts
+    1:40  warning  'useCallback' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   68:32  error    Error: Cannot access variable before it is declared
+
+`filteredAndSortedLeads` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/hooks/useCampaignResults.ts:68:32
+  66 |
+  67 |   const toggleAll = () => {
+> 68 |     if (selectedIds.length === filteredAndSortedLeads.length) {
+     |                                ^^^^^^^^^^^^^^^^^^^^^^ `filteredAndSortedLeads` accessed before it is declared
+  69 |       setSelectedIds([]);
+  70 |     } else {
+  71 |       setSelectedIds(filteredAndSortedLeads.map(l => l.id));
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/hooks/useCampaignResults.ts:110:3
+  108 |   };
+  109 |
+> 110 |   const filteredAndSortedLeads = useMemo(() => {
+      |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 111 |     let result = [...leads];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 112 |
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 149 |     return result;
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 150 |   }, [leads, sortConfig, searchTerm, savedViews]);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `filteredAndSortedLeads` is declared here
+  151 |
+  152 |   return {
+  153 |     leads: filteredAndSortedLeads,  react-hooks/immutability
+   98:6   warning  React Hook useEffect has a missing dependency: 'filteredAndSortedLeads'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react-hooks/exhaustive-deps
+  110:34  error    Compilation Skipped: Existing memoization could not be preserved
+
+React Compiler has skipped optimizing this component because the existing manual memoization could not be preserved. This value was memoized in source but not in compilation output.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/hooks/useCampaignResults.ts:110:34
+  108 |   };
+  109 |
+> 110 |   const filteredAndSortedLeads = useMemo(() => {
+      |                                  ^^^^^^^^^^^^^^^
+> 111 |     let result = [...leads];
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 112 |
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 149 |     return result;
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 150 |   }, [leads, sortConfig, searchTerm, savedViews]);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Could not preserve existing memoization
+  151 |
+  152 |   return {
+  153 |     leads: filteredAndSortedLeads,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/preserve-manual-memoization
+  138:43  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+  139:43  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-explicit-any
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaign-results/mock/generate-leads.ts
+  35:7  warning  'STATUSES' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  36:7  warning  'HEALTHS' is assigned a value but never used   @typescript-eslint/no-unused-vars
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/campaigns-table.tsx
+   15:3   warning  'Play' is defined but never used                                 @typescript-eslint/no-unused-vars
+  123:65  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  123:78  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  142:19  warning  'isFinished' is assigned a value but never used                  @typescript-eslint/no-unused-vars
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-header.tsx
+   5:30  warning  'PlayCircle' is defined but never used    @typescript-eslint/no-unused-vars
+  48:86  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx
+  11:80  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                @typescript-eslint/no-explicit-any
+  42:8   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:42:8
+  40 |   return (
+  41 |     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+> 42 |       <MetricCard 
+     |        ^^^^^^^^^^ This component is created during render
+  43 |         title="Profiles Scanned" 
+  44 |         value={metrics.profilesFound} 
+  45 |         icon={Users} 
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:11:22
+   9 |   const { metrics } = simulation;
+  10 |
+> 11 |   const MetricCard = ({ title, value, icon: Icon, className, isTime = false }: any) => (
+     |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 12 |     <Card className="rounded-xl border-border/50 bg-background/50 shadow-none hover:bg-muted/10 transition-colors">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 13 |       <CardHeader className="pb-2 px-6 pt-5">
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 30 |     </Card>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |   );
+     | ^^^^ The component is created during render here
+  32 |
+  33 |   const formatTime = (seconds: number) => {
+  34 |     if (seconds <= 0) return "00:00";                   react-hooks/static-components
+  48:8   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:48:8
+  46 |         className="text-foreground" 
+  47 |       />
+> 48 |       <MetricCard 
+     |        ^^^^^^^^^^ This component is created during render
+  49 |         title="Qualified Leads" 
+  50 |         value={metrics.qualified} 
+  51 |         icon={CheckCircle2} 
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:11:22
+   9 |   const { metrics } = simulation;
+  10 |
+> 11 |   const MetricCard = ({ title, value, icon: Icon, className, isTime = false }: any) => (
+     |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 12 |     <Card className="rounded-xl border-border/50 bg-background/50 shadow-none hover:bg-muted/10 transition-colors">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 13 |       <CardHeader className="pb-2 px-6 pt-5">
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 30 |     </Card>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |   );
+     | ^^^^ The component is created during render here
+  32 |
+  33 |   const formatTime = (seconds: number) => {
+  34 |     if (seconds <= 0) return "00:00";                                          react-hooks/static-components
+  54:8   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:54:8
+  52 |         className="text-emerald-500" 
+  53 |       />
+> 54 |       <MetricCard 
+     |        ^^^^^^^^^^ This component is created during render
+  55 |         title="Rejected Profiles" 
+  56 |         value={metrics.rejected} 
+  57 |         icon={UserX} 
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:11:22
+   9 |   const { metrics } = simulation;
+  10 |
+> 11 |   const MetricCard = ({ title, value, icon: Icon, className, isTime = false }: any) => (
+     |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 12 |     <Card className="rounded-xl border-border/50 bg-background/50 shadow-none hover:bg-muted/10 transition-colors">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 13 |       <CardHeader className="pb-2 px-6 pt-5">
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 30 |     </Card>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |   );
+     | ^^^^ The component is created during render here
+  32 |
+  33 |   const formatTime = (seconds: number) => {
+  34 |     if (seconds <= 0) return "00:00";                                               react-hooks/static-components
+  60:8   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:60:8
+  58 |         className="text-muted-foreground" 
+  59 |       />
+> 60 |       <MetricCard 
+     |        ^^^^^^^^^^ This component is created during render
+  61 |         title="Duplicates Removed" 
+  62 |         value={metrics.duplicatesRemoved} 
+  63 |         icon={Network} 
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:11:22
+   9 |   const { metrics } = simulation;
+  10 |
+> 11 |   const MetricCard = ({ title, value, icon: Icon, className, isTime = false }: any) => (
+     |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 12 |     <Card className="rounded-xl border-border/50 bg-background/50 shadow-none hover:bg-muted/10 transition-colors">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 13 |       <CardHeader className="pb-2 px-6 pt-5">
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 30 |     </Card>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |   );
+     | ^^^^ The component is created during render here
+  32 |
+  33 |   const formatTime = (seconds: number) => {
+  34 |     if (seconds <= 0) return "00:00";                              react-hooks/static-components
+  66:8   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:66:8
+  64 |         className="text-foreground" 
+  65 |       />
+> 66 |       <MetricCard 
+     |        ^^^^^^^^^^ This component is created during render
+  67 |         title="Elapsed Time" 
+  68 |         value={formatTime(metrics.runtimeSeconds)} 
+  69 |         icon={Clock} 
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:11:22
+   9 |   const { metrics } = simulation;
+  10 |
+> 11 |   const MetricCard = ({ title, value, icon: Icon, className, isTime = false }: any) => (
+     |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 12 |     <Card className="rounded-xl border-border/50 bg-background/50 shadow-none hover:bg-muted/10 transition-colors">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 13 |       <CardHeader className="pb-2 px-6 pt-5">
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 30 |     </Card>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |   );
+     | ^^^^ The component is created during render here
+  32 |
+  33 |   const formatTime = (seconds: number) => {
+  34 |     if (seconds <= 0) return "00:00";                                   react-hooks/static-components
+  73:8   error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:73:8
+  71 |         isTime={true}
+  72 |       />
+> 73 |       <MetricCard 
+     |        ^^^^^^^^^^ This component is created during render
+  74 |         title="ETA" 
+  75 |         value={simulation.status === "Completed" ? "00:00" : formatTime(metrics.estimatedRemainingSeconds)} 
+  76 |         icon={Timer} 
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-metrics-grid.tsx:11:22
+   9 |   const { metrics } = simulation;
+  10 |
+> 11 |   const MetricCard = ({ title, value, icon: Icon, className, isTime = false }: any) => (
+     |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 12 |     <Card className="rounded-xl border-border/50 bg-background/50 shadow-none hover:bg-muted/10 transition-colors">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 13 |       <CardHeader className="pb-2 px-6 pt-5">
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 30 |     </Card>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |   );
+     | ^^^^ The component is created during render here
+  32 |
+  33 |   const formatTime = (seconds: number) => {
+  34 |     if (seconds <= 0) return "00:00";  react-hooks/static-components
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-pipeline.tsx
+   7:57  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  21:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/execution/execution-sticky-sidebar.tsx
+  14:86  error    Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+  15:9   warning  'isPaused' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  15:44  error    Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/leads-data-table.tsx
+  183:17  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/leads-data-table.tsx:183:17
+  181 |   ];
+  182 |
+> 183 |   const table = useReactTable({
+      |                 ^^^^^^^^^^^^^ TanStack Table's `useReactTable()` API returns functions that cannot be memoized safely
+  184 |     data,
+  185 |     columns,
+  186 |     getCoreRowModel: getCoreRowModel(),  react-hooks/incompatible-library
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/scraper-config-form.tsx
+  36:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/scraping-progress.tsx
+  29:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/instagram/scraping-progress.tsx:29:7
+  27 |   useEffect(() => {
+  28 |     if (campaign.status === "Completed") {
+> 29 |       setCurrentStepIndex(7);
+     |       ^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  30 |       return;
+  31 |     }
+  32 |       react-hooks/set-state-in-effect
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/layout/mobile-sidebar.tsx
+  13:3  warning  'SheetClose' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+  25:5  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/layout/mobile-sidebar.tsx:25:5
+  23 |   // Close sidebar on route change
+  24 |   React.useEffect(() => {
+> 25 |     setOpen(false);
+     |     ^^^^^^^ Avoid calling setState() directly within an effect
+  26 |   }, [pathname]);
+  27 |
+  28 |   return (  react-hooks/set-state-in-effect
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/layout/navbar.tsx
+   8:10  warning  'Button' is defined but never used               @typescript-eslint/no-unused-vars
+  12:3   warning  'BreadcrumbLink' is defined but never used       @typescript-eslint/no-unused-vars
+  15:3   warning  'BreadcrumbSeparator' is defined but never used  @typescript-eslint/no-unused-vars
+  17:10  warning  'Fragment' is defined but never used             @typescript-eslint/no-unused-vars
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/layout/search-bar.tsx
+  11:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/layout/search-bar.tsx:11:5
+   9 |
+  10 |   useEffect(() => {
+> 11 |     setMounted(true);
+     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  12 |   }, []);
+  13 |
+  14 |   return (  react-hooks/set-state-in-effect
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/layout/sidebar.tsx
+   8:3  warning  'BarChart3' is defined but never used  @typescript-eslint/no-unused-vars
+   9:3  warning  'Users' is defined but never used      @typescript-eslint/no-unused-vars
+  10:3  warning  'Kanban' is defined but never used     @typescript-eslint/no-unused-vars
+  11:3  warning  'Send' is defined but never used       @typescript-eslint/no-unused-vars
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/layout/theme-toggle.tsx
+  11:25  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/layout/theme-toggle.tsx:11:25
+   9 |   const [mounted, setMounted] = React.useState(false);
+  10 |
+> 11 |   React.useEffect(() => setMounted(true), []);
+     |                         ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  12 |
+  13 |   if (!mounted) {
+  14 |     return <div className="h-9 w-9" />;  react-hooks/set-state-in-effect
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/components/ui/animated-counter.tsx
+  44:6  warning  React Hook useEffect has a missing dependency: 'displayValue'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/hooks/use-campaign-simulation.ts
+  153:7   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/hooks/use-campaign-simulation.ts:153:7
+  151 |   useEffect(() => {
+  152 |     if (campaign && status === "Pending") {
+> 153 |       setStatus("Connecting" as CampaignStatus);
+      |       ^^^^^^^^^ Avoid calling setState() directly within an effect
+  154 |       addLog("Generated AI search query", "info");
+  155 |       
+  156 |       if (campaign.status === "Completed") {  react-hooks/set-state-in-effect
+  177:37  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  186:33  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  287:27  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+
+/Users/abhishekkumarpatel/Documents/Websual Agency/Automations/Social Media Lead Automation/frontend/src/lib/types/instagram.ts
+  10:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 93 problems (48 errors, 45 warnings)
+

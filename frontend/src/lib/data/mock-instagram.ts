@@ -1,5 +1,27 @@
-import { ScrapingCampaign, ScrapedLead } from "../types/instagram";
+/**
+ * @BACKEND_REPLACEMENT_TARGET
+ * This file contains MOCK DATA used for frontend development.
+ * It should be removed and replaced with real API calls during backend integration.
+ */
+import { ScrapingCampaign, ScrapedLead, InstagramProfile } from "../types/instagram";
 
+export const MOCK_INSTAGRAM_PROFILES: InstagramProfile[] = [
+  {
+    id: "p_1",
+    username: "miamidesign",
+    avatarUrl: "https://i.pravatar.cc/150?u=miamidesign",
+  },
+  {
+    id: "p_2",
+    username: "john_realtor",
+    avatarUrl: "https://i.pravatar.cc/150?u=john",
+  },
+  {
+    id: "p_3",
+    username: "tech_cto",
+    avatarUrl: "https://i.pravatar.cc/150?u=cto",
+  }
+];
 export const MOCK_SCRAPING_CAMPAIGNS: ScrapingCampaign[] = [
   {
     id: "sc_1",

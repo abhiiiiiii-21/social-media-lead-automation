@@ -24,7 +24,7 @@ export function ProfileMenu() {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 rounded-xl" align="end" forceMount>
+      <DropdownMenuContent className="w-56 rounded-xl" align="end">
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">Websual Admin</p>
