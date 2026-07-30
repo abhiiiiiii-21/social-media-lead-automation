@@ -12,6 +12,8 @@ import {
   Settings,
   PanelLeftClose,
   PanelLeftOpen,
+  Inbox,
+  FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/lib/store/use-sidebar";
@@ -41,12 +43,11 @@ const navigation = [
     ],
   },
   {
-    title: "Pipeline",
+    title: "Outreach",
     items: [
-      { label: "Leads", href: "/leads", icon: Users },
-      { label: "CRM", href: "/crm", icon: Kanban },
-      { label: "Outreach", href: "/outreach", icon: Send },
-      { label: "Analytics", href: "/analytics", icon: BarChart3 },
+      { label: "Queue", href: "/outreach/queue", icon: Inbox },
+      { label: "Templates", href: "/outreach/templates", icon: FileText },
+      { label: "Analytics", href: "/outreach/analytics", icon: BarChart3 },
     ],
   },
   {

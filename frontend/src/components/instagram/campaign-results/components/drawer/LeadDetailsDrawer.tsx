@@ -76,7 +76,7 @@ export function LeadDetailsDrawer({ leadId, leads, onClose }: LeadDetailsDrawerP
 
             <div className="p-4 border-t border-border/50 bg-background/95 flex flex-col gap-2 sticky bottom-0 z-10">
               <Button className="w-full font-medium" size="sm">
-                <Send className="mr-2 h-4 w-4" /> Move to CRM
+                <Send className="mr-2 h-4 w-4" /> Move to Outreach
               </Button>
               <div className="flex gap-2">
                 {renderedLead.email && (
