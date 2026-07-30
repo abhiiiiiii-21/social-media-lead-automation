@@ -47,7 +47,6 @@ const navigation = [
     items: [
       { label: "Queue", href: "/outreach/queue", icon: Inbox },
       { label: "Templates", href: "/outreach/templates", icon: FileText },
-      { label: "Analytics", href: "/outreach/analytics", icon: BarChart3 },
     ],
   },
   {
