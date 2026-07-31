@@ -10,6 +10,7 @@ from sqlalchemy import pool  # noqa: E402
 from sqlalchemy.engine import Connection  # noqa: E402
 from sqlalchemy.ext.asyncio import async_engine_from_config  # noqa: E402
 
+import app.models  # noqa: E402, F401
 from alembic import context  # noqa: E402
 from app.core.config import settings  # noqa: E402
 from app.database.base import Base  # noqa: E402
