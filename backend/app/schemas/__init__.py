@@ -1,3 +1,8 @@
+from app.schemas.account import (
+    AccountLoginRequest,
+    AccountSessionResponse,
+    AccountValidationResponse,
+)
 from app.schemas.campaign import CampaignCreate, CampaignResponse, CampaignUpdate
 from app.schemas.common import PaginatedResponse
 from app.schemas.dashboard import DashboardOverviewResponse
@@ -19,6 +24,9 @@ from app.schemas.template import (
 )
 
 __all__ = [
+    "AccountLoginRequest",
+    "AccountSessionResponse",
+    "AccountValidationResponse",
     "CampaignCreate",
     "CampaignUpdate",
     "CampaignResponse",
