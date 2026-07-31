@@ -4,6 +4,7 @@ from typing import AsyncGenerator
 from playwright.async_api import Page
 
 from app.automation.instagram.scroll_manager import smooth_scroll
+from app.automation.common.randomization import wait_random
 
 
 async def execute_hashtag_search(page: Page, hashtag: str, max_scrolls: int = 50) -> AsyncGenerator[str, None]:
@@ -14,7 +15,7 @@ async def execute_hashtag_search(page: Page, hashtag: str, max_scrolls: int = 50
     url = f"https://www.instagram.com/explore/tags/{urllib.parse.quote(hashtag_clean)}/"
     
     await page.goto(url, wait_until="networkidle")
-    await asyncio.sleep(2)
+    await wait_random(2000, 4000)
     
     discovered_posts = set()
     discovered_users = set()

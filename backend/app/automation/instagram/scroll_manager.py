@@ -1,6 +1,7 @@
 import asyncio
 
 from playwright.async_api import Page
+from app.automation.common.randomization import wait_random, wait_scroll
 
 async def smooth_scroll(page: Page, scroll_delay_ms: int = 1500, max_scrolls: int = 50) -> bool:
     """
@@ -15,7 +16,7 @@ async def smooth_scroll(page: Page, scroll_delay_ms: int = 1500, max_scrolls: in
         await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
         
         # Wait for potential new content
-        await asyncio.sleep(scroll_delay_ms / 1000.0)
+        await wait_random(scroll_delay_ms, scroll_delay_ms + 1000)
         
         # Check new height
         new_height = await page.evaluate("document.body.scrollHeight")
@@ -23,9 +24,9 @@ async def smooth_scroll(page: Page, scroll_delay_ms: int = 1500, max_scrolls: in
         if new_height == previous_height:
             # Sometime Instagram has a slight delay or requires a tiny scroll up then down to trigger
             await page.evaluate("window.scrollTo(0, document.body.scrollHeight - 100)")
-            await asyncio.sleep(0.5)
+            await wait_random(400, 800)
             await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-            await asyncio.sleep(scroll_delay_ms / 1000.0)
+            await wait_random(scroll_delay_ms, scroll_delay_ms + 1000)
             new_height = await page.evaluate("document.body.scrollHeight")
             
         return new_height > previous_height

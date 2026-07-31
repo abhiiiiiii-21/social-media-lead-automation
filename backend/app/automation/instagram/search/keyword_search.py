@@ -1,6 +1,8 @@
 import asyncio
 from typing import AsyncGenerator
 from playwright.async_api import Page
+from app.automation.common.human_behavior import human_type
+from app.automation.common.randomization import wait_random, wait_action_spacing
 
 
 async def execute_keyword_search(page: Page, query: str, max_scrolls: int = 20) -> AsyncGenerator[str, None]:
@@ -25,8 +27,8 @@ async def execute_keyword_search(page: Page, query: str, max_scrolls: int = 20) 
             await page.wait_for_selector(search_input, state="visible", timeout=10000)
     
     if await page.locator(search_input).count() > 0:
-        await page.fill(search_input, query)
-        await asyncio.sleep(2) # Wait for results to populate
+        await human_type(page, "input[aria-label='Search input']", query)
+        await wait_random(2000, 3000) # Wait for results to populate
         
         # We need to scroll the results list inside the search flyout.
         # This is quite specific, we look for hrefs that look like profiles.
@@ -68,7 +70,7 @@ async def execute_keyword_search(page: Page, query: str, max_scrolls: int = 20) 
                 if not scroll_result and not new_discovered:
                     break # Reached bottom of search or no new results
                     
-                await asyncio.sleep(1)
+                await wait_random(800, 1500)
             except Exception:
                 break
                 

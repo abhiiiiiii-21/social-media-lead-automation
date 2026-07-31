@@ -12,6 +12,8 @@ from app.automation.instagram.search.location_search import execute_location_sea
 from app.automation.instagram.search.username_search import execute_username_search
 from app.automation.instagram.profile_parser import parse_profile
 from app.automation.instagram.lead_storage import store_lead
+from app.automation.common.rate_controller import RateController
+from app.automation.common.automation_settings import get_automation_config
 
 # In-memory dictionary to track tasks so we can cancel them
 _RUNNING_TASKS: Dict[str, asyncio.Task] = {}
@@ -82,6 +84,9 @@ class ScraperService:
         
         await tracker.log_event("INFO", f"Starting scraper: {search_mode} -> {source_query}")
         
+        automation_config = await get_automation_config(self.db)
+        rate_controller = RateController(automation_config)
+        
         browser_manager = BrowserManager()
         session_manager = SessionManager(self.db)
         
@@ -111,12 +116,23 @@ class ScraperService:
                     break
                     
                 await tracker.add_discovered()
+                rate_controller.record_action()
                 
+                # Rate Limiter
+                try:
+                    await rate_controller.check_limits()
+                    await rate_controller.pause_if_needed()
+                except StopAsyncIteration:
+                    await tracker.log_event("INFO", "Maximum profiles per run reached from rate controller.")
+                    break
+                except TimeoutError as e:
+                    await tracker.log_event("WARNING", f"Rate controller timeout: {str(e)}")
+                    break
+
                 # Navigate to profile
                 profile_url = f"https://www.instagram.com/{username}/"
                 try:
-                    await page.goto(profile_url, wait_until="networkidle")
-                    await asyncio.sleep(1) # small delay to avoid rate limit
+                    await page.goto(profile_url, wait_until="networkidle", timeout=automation_config.nav_timeout_ms)
                     
                     profile_data = await parse_profile(page, username)
                     
@@ -137,7 +153,7 @@ class ScraperService:
                     await tracker.add_error(f"Error parsing {username}: {str(e)}")
                     
                 await tracker.add_processed()
-                
+                    
             await tracker.mark_completed()
 
         except asyncio.CancelledError:

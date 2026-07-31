@@ -2,6 +2,8 @@ import asyncio
 from typing import Tuple
 
 from playwright.async_api import Error as PlaywrightError
+from app.automation.common.human_behavior import human_click, human_type
+from app.automation.common.randomization import wait_random
 
 from app.automation.playwright.browser_manager import BrowserManager
 from app.automation.playwright.constants import (
@@ -47,11 +49,11 @@ async def perform_login(
         )
 
         # Fill credentials
-        await page.fill(LOGIN_USERNAME_INPUT, username)
-        await page.fill(LOGIN_PASSWORD_INPUT, password)
+        await human_type(page, LOGIN_USERNAME_INPUT, username)
+        await human_type(page, LOGIN_PASSWORD_INPUT, password)
 
         # Submit
-        await page.click(LOGIN_SUBMIT_BUTTON)
+        await human_click(page, LOGIN_SUBMIT_BUTTON)
 
         # Wait for either a successful login indicator, or an error banner, or a checkpoint
         success = False
@@ -91,7 +93,7 @@ async def perform_login(
         if success:
             # Handle "Save Your Login Info?" modal
             if await page.locator(SAVE_INFO_MODAL_BUTTON_NOT_NOW).count() > 0:
-                await page.click(SAVE_INFO_MODAL_BUTTON_NOT_NOW)
+                await human_click(page, SAVE_INFO_MODAL_BUTTON_NOT_NOW)
 
             # Save state
             session_path = session_manager.get_session_path(username)

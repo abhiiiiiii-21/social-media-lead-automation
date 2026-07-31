@@ -1,6 +1,7 @@
 import asyncio
 from typing import AsyncGenerator
 from playwright.async_api import Page
+from app.automation.common.randomization import wait_random
 
 
 async def execute_username_search(page: Page, query: str, max_scrolls: int = 1) -> AsyncGenerator[str, None]:
@@ -14,4 +15,4 @@ async def execute_username_search(page: Page, query: str, max_scrolls: int = 1) 
         username = username.lstrip("@")
         yield username
         # Adding a small sleep to avoid tight loops if this generator is consumed fast
-        await asyncio.sleep(0.1)
+        await wait_random(100, 300)
