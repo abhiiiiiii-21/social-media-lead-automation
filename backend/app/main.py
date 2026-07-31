@@ -1,14 +1,12 @@
 from contextlib import asynccontextmanager
-
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
-from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.router import api_router, root_router
 from app.core.config import settings
 from app.core.exceptions import setup_exception_handlers
 from app.core.logging import setup_logging
-from app.database.session import get_db
 
 
 @asynccontextmanager
@@ -54,6 +52,5 @@ async def root():
     }
 
 
-@app.get("/health", tags=["Health"])
-async def health_check(db: AsyncSession = Depends(get_db)):
-    return {"status": "ok", "database": "connected"}
+app.include_router(root_router)
+app.include_router(api_router, prefix="/api")
