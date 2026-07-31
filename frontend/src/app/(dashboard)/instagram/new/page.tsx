@@ -6,7 +6,7 @@ import { ScraperTypeCard } from "@/components/instagram/scraper-type-card";
 import { ScraperConfigForm } from "@/components/instagram/scraper-config-form";
 import { LiveSummaryCard } from "@/components/instagram/live-summary-card";
 import { ScraperType, ScrapingConfig } from "@/lib/types/instagram";
-import { useCreateScrapingCampaign } from "@/hooks/use-instagram";
+import { useCreateCampaign } from "@/hooks/use-campaigns";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ export default function NewCampaignPage() {
   const [selectedType, setSelectedType] = useState<ScraperType>("AI Discovery");
   const [config, setConfig] = useState<ScrapingConfig>({});
   
-  const { mutateAsync: createCampaign, isPending } = useCreateScrapingCampaign();
+  const { mutateAsync: createCampaign, isPending } = useCreateCampaign();
   const router = useRouter();
 
   // Validate form state
@@ -54,8 +54,11 @@ export default function NewCampaignPage() {
     try {
       const campaign = await createCampaign({
         name: config.campaignName,
-        scraperType: selectedType,
-        config: config
+        platform: "Instagram",
+        config: {
+          scraperType: selectedType,
+          ...config
+        }
       });
       router.push(`/instagram/campaigns/${campaign.id}`);
     } catch (error) {

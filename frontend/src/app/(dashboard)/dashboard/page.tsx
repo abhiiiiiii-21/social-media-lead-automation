@@ -9,24 +9,10 @@ import { FaInstagram, FaLinkedin } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
-// --- MOCK DATA ---
-const RUNNING_CAMPAIGNS = [
-  { id: "1", name: "Realtors in Miami", platform: "Instagram", status: "Running", sent: 142, remaining: 858, total: 1000, eta: "2h 15m" },
-  { id: "2", name: "B2B SaaS Founders", platform: "LinkedIn", status: "Running", sent: 45, remaining: 105, total: 150, eta: "45m" },
-  { id: "3", name: "Tech CTOs SF", platform: "LinkedIn", status: "Running", sent: 12, remaining: 288, total: 300, eta: "3h 40m" },
-];
-
-const RECENT_CAMPAIGNS = [
-  { id: "1", name: "Miami Luxury Homes", platform: "Instagram", status: "Running", leads: 1000, created: "2 hrs ago" },
-  { id: "2", name: "Tech CTOs SF", platform: "LinkedIn", status: "Completed", leads: 150, created: "1 day ago" },
-  { id: "3", name: "Plumbers in Texas", platform: "Instagram", status: "Draft", leads: 0, created: "2 days ago" },
-];
-
-const TOP_TEMPLATES = [
-  { id: "1", name: "Florida Realtor Intro", platform: "Instagram", uses: 342 },
-  { id: "2", name: "B2B Connection Request", platform: "LinkedIn", uses: 128 },
-  { id: "3", name: "SEO Audit Pitch", platform: "LinkedIn", uses: 89 },
-];
+import { useDashboardOverview } from "@/hooks/use-dashboard";
+import { useCampaigns } from "@/hooks/use-campaigns";
+import { useTemplates } from "@/hooks/use-templates";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const RECENT_ACTIVITY = [
   { type: "Queue Started", desc: "Started outreach for 'Miami Luxury Homes'", time: "10 mins ago", icon: Inbox, color: "text-emerald-500", bg: "bg-emerald-500/10" },
@@ -41,6 +27,17 @@ const RECENT_ACTIVITY = [
 export default function DashboardPage() {
   const router = useRouter();
   const [dateFilter, setDateFilter] = useState("7 Days");
+
+  const { data: overview, isLoading: isOverviewLoading } = useDashboardOverview();
+  const { data: campaignsData, isLoading: isCampaignsLoading } = useCampaigns({ limit: 10 });
+  const { data: templatesData, isLoading: isTemplatesLoading } = useTemplates({ limit: 5 });
+
+  const campaigns = campaignsData?.items || [];
+  const runningCampaigns = campaigns.filter(c => c.status.toLowerCase() === "running" || c.status.toLowerCase() === "active");
+  const recentCampaigns = campaigns.slice(0, 5);
+  const templates = templatesData?.items || [];
+
+  const isLoading = isOverviewLoading || isCampaignsLoading || isTemplatesLoading;
 
   return (
     <div className="flex flex-col gap-6 p-6 max-w-[1400px] mx-auto w-full">
@@ -78,18 +75,22 @@ export default function DashboardPage() {
       {/* KPI CARDS (5) */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {[
-          { label: "Total Campaigns", value: "12", icon: Layers },
-          { label: "Qualified Leads", value: "2,450", icon: UserCheck, highlight: true },
-          { label: "Messages Sent", value: "1,842", icon: Send, highlight: true },
-          { label: "Failed Messages", value: "3", icon: AlertTriangle, danger: true },
-          { label: "Templates", value: "24", icon: FileText },
+          { label: "Total Campaigns", value: overview?.total_campaigns ?? 0, icon: Layers },
+          { label: "Qualified Leads", value: overview?.total_leads ?? 0, icon: UserCheck, highlight: true },
+          { label: "Queue Size", value: overview?.queue_size ?? 0, icon: Send, highlight: true },
+          { label: "Active Campaigns", value: overview?.active_campaigns ?? 0, icon: AlertTriangle, danger: false },
+          { label: "Templates", value: templatesData?.total ?? 0, icon: FileText },
         ].map((kpi, i) => (
           <div key={i} className={cn("flex flex-col p-4 rounded-xl border border-border/40 bg-background shadow-sm hover:border-border transition-colors", kpi.highlight && "bg-muted/30 border-border/60")}>
             <div className="flex items-center justify-between mb-3">
               <span className={cn("text-xs font-semibold uppercase tracking-wider", kpi.highlight ? "text-foreground/80" : "text-muted-foreground")}>{kpi.label}</span>
               <kpi.icon className={cn("h-4 w-4", kpi.danger ? "text-red-500" : (kpi.highlight ? "text-foreground/80" : "text-muted-foreground/50"))} />
             </div>
-            <span className={cn("text-2xl font-bold tracking-tight", kpi.danger && "text-red-500")}>{kpi.value}</span>
+            {isLoading ? (
+              <Skeleton className="h-8 w-16" />
+            ) : (
+              <span className={cn("text-2xl font-bold tracking-tight", kpi.danger && "text-red-500")}>{kpi.value}</span>
+            )}
           </div>
         ))}
       </div>
@@ -102,9 +103,14 @@ export default function DashboardPage() {
             <h3 className="font-semibold text-sm pl-1">Running Campaigns</h3>
           </div>
           
-          {RUNNING_CAMPAIGNS.length > 0 ? (
+          {isLoading ? (
             <div className="flex flex-col gap-4">
-              {RUNNING_CAMPAIGNS.map((campaign) => (
+              <Skeleton className="h-32 w-full rounded-xl" />
+              <Skeleton className="h-32 w-full rounded-xl" />
+            </div>
+          ) : runningCampaigns.length > 0 ? (
+            <div className="flex flex-col gap-4">
+              {runningCampaigns.map((campaign) => (
                 <div 
                   key={campaign.id} 
                   className="flex flex-col p-4 rounded-xl border border-border/40 bg-background shadow-sm hover:border-foreground/20 cursor-pointer transition-all duration-200 group"
@@ -112,7 +118,7 @@ export default function DashboardPage() {
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex flex-col gap-1.5">
                       <div className="flex items-center gap-2">
-                        {campaign.platform === "Instagram" ? <FaInstagram className="text-pink-500 w-3.5 h-3.5 opacity-90" /> : <FaLinkedin className="text-[#0077b5] w-3.5 h-3.5 opacity-90" />}
+                        {campaign.platform?.toLowerCase() === "instagram" ? <FaInstagram className="text-pink-500 w-3.5 h-3.5 opacity-90" /> : <FaLinkedin className="text-[#0077b5] w-3.5 h-3.5 opacity-90" />}
                         <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded border bg-blue-500/10 text-blue-500 border-blue-500/20">{campaign.status}</span>
                       </div>
                       <h4 className="font-semibold text-sm line-clamp-1">{campaign.name}</h4>
@@ -130,18 +136,18 @@ export default function DashboardPage() {
 
                   <div className="flex flex-col gap-2">
                     <div className="flex justify-between text-xs font-medium">
-                      <span>{campaign.sent} / {campaign.total} Sent</span>
-                      <span className="text-muted-foreground">{campaign.remaining} Remaining</span>
+                      <span>0 / 0 Sent</span>
+                      <span className="text-muted-foreground">0 Remaining</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="h-2 flex-1 bg-muted/60 rounded-full overflow-hidden relative">
-                        <div className="h-full bg-blue-500 rounded-full transition-all duration-500" style={{ width: `${(campaign.sent / campaign.total) * 100}%` }} />
+                        <div className="h-full bg-blue-500 rounded-full transition-all duration-500" style={{ width: `0%` }} />
                       </div>
-                      <span className="text-[11px] font-bold text-muted-foreground w-8 text-right">{Math.round((campaign.sent / campaign.total) * 100)}%</span>
+                      <span className="text-[11px] font-bold text-muted-foreground w-8 text-right">0%</span>
                     </div>
                     <div className="flex items-center justify-between text-[11px] text-muted-foreground mt-1">
                        <span className="flex items-center gap-1.5">
-                         <Clock className="w-3 h-3 opacity-70" /> ETA: {campaign.eta}
+                         <Clock className="w-3 h-3 opacity-70" /> ETA: Calculating...
                        </span>
                     </div>
                   </div>
@@ -197,26 +203,32 @@ export default function DashboardPage() {
               </button>
             </div>
             <div className="flex flex-col">
-              {RECENT_CAMPAIGNS.map((campaign, i) => (
+              {isLoading ? (
+                <div className="p-4"><Skeleton className="h-12 w-full" /></div>
+              ) : recentCampaigns.length === 0 ? (
+                <div className="p-4 text-center text-sm text-muted-foreground">No recent campaigns.</div>
+              ) : recentCampaigns.map((campaign, i) => (
                 <div 
                   key={campaign.id} 
                   className={cn(
                     "flex items-center justify-between px-5 py-3 hover:bg-muted/30 cursor-pointer transition-colors group",
-                    i !== RECENT_CAMPAIGNS.length - 1 && "border-b border-border/40"
+                    i !== recentCampaigns.length - 1 && "border-b border-border/40"
                   )}
                   onClick={() => router.push(`/instagram/campaigns/${campaign.id}`)}
                 >
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-1.5">
-                      {campaign.platform === "Instagram" ? <FaInstagram className="text-pink-500 w-3 h-3 opacity-80" /> : <FaLinkedin className="text-[#0077b5] w-3 h-3 opacity-80" />}
+                      {campaign.platform?.toLowerCase() === "instagram" ? <FaInstagram className="text-pink-500 w-3 h-3 opacity-80" /> : <FaLinkedin className="text-[#0077b5] w-3 h-3 opacity-80" />}
                       <span className="text-[13px] font-semibold line-clamp-1">{campaign.name}</span>
                     </div>
-                    <span className="text-[11px] text-muted-foreground group-hover:text-muted-foreground/80 transition-colors">{campaign.leads} leads • {campaign.created}</span>
+                    <span className="text-[11px] text-muted-foreground group-hover:text-muted-foreground/80 transition-colors">
+                      {new Date(campaign.created_at).toLocaleDateString()}
+                    </span>
                   </div>
                   <span className={cn(
                     "text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border",
-                    campaign.status === "Running" ? "bg-blue-500/10 text-blue-500 border-blue-500/20" : 
-                    campaign.status === "Completed" ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" : 
+                    campaign.status?.toLowerCase() === "running" ? "bg-blue-500/10 text-blue-500 border-blue-500/20" : 
+                    campaign.status?.toLowerCase() === "completed" ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" : 
                     "bg-muted text-muted-foreground border-border"
                   )}>
                     {campaign.status}
@@ -232,22 +244,26 @@ export default function DashboardPage() {
               <h3 className="font-semibold text-sm">Top Templates</h3>
             </div>
             <div className="flex flex-col">
-              {TOP_TEMPLATES.map((template, i) => (
+              {isLoading ? (
+                 <div className="p-4"><Skeleton className="h-12 w-full" /></div>
+              ) : templates.length === 0 ? (
+                <div className="p-4 text-center text-sm text-muted-foreground">No templates available.</div>
+              ) : templates.map((template, i) => (
                 <div 
                   key={template.id} 
                   className={cn(
                     "flex items-center justify-between px-5 py-3 hover:bg-muted/30 cursor-pointer transition-colors",
-                    i !== TOP_TEMPLATES.length - 1 && "border-b border-border/40"
+                    i !== templates.length - 1 && "border-b border-border/40"
                   )}
                   onClick={() => router.push("/outreach/templates")}
                 >
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-1.5">
-                      {template.platform === "Instagram" ? <FaInstagram className="text-pink-500 w-3 h-3 opacity-80" /> : <FaLinkedin className="text-[#0077b5] w-3 h-3 opacity-80" />}
+                      {template.platform?.toLowerCase() === "instagram" ? <FaInstagram className="text-pink-500 w-3 h-3 opacity-80" /> : <FaLinkedin className="text-[#0077b5] w-3 h-3 opacity-80" />}
                       <span className="text-[13px] font-semibold line-clamp-1">{template.name}</span>
                     </div>
                   </div>
-                  <span className="text-[11px] font-medium text-muted-foreground bg-muted/50 px-2 py-0.5 rounded">{template.uses} Runs</span>
+                  <span className="text-[11px] font-medium text-muted-foreground bg-muted/50 px-2 py-0.5 rounded">{template.category}</span>
                 </div>
               ))}
             </div>

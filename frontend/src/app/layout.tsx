@@ -12,8 +12,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-import QueryProvider from "@/components/providers/query-provider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider"
+import { Toaster } from "sonner"
+import { QueryProvider } from "@/components/providers/query-provider";
 
 export const metadata: Metadata = {
   title: "Social Lead Automation",
@@ -34,12 +35,13 @@ export default function RootLayout({
       <body className="min-h-full bg-background text-foreground font-sans selection:bg-primary/20 selection:text-foreground flex flex-col">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="system"
           enableSystem
-          disableTransitionOnChange={false}
+          disableTransitionOnChange
         >
           <QueryProvider>
             {children}
+            <Toaster position="top-right" richColors />
           </QueryProvider>
         </ThemeProvider>
       </body>

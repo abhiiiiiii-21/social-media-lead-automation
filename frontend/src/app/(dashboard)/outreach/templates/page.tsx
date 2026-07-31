@@ -16,69 +16,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useTemplates, useCreateTemplate, useUpdateTemplate, useDeleteTemplate } from "@/hooks/use-templates";
+import { MessageTemplate } from "@/lib/api/templates";
 
 // ------------------------------------------------------------------
-// MOCK DATA & TYPES
+// MOCK DATA & TYPES (Leads Mock kept for Live Preview)
 // ------------------------------------------------------------------
 type Platform = "All" | "Instagram" | "LinkedIn";
 type Category = "All" | "Cold Outreach" | "Follow Up" | "Website Audit" | "SEO" | "Custom";
 
-interface Template {
-  id: string;
-  name: string;
-  platform: "Instagram" | "LinkedIn";
-  category: Category;
-  status: "Active" | "Draft" | "Archived";
-  timesUsed: number;
-  lastUpdated: string;
-  body: string;
-  subject?: string;
-}
 
-const MOCK_TEMPLATES: Template[] = [
-  {
-    id: "1",
-    name: "Florida Realtor Intro",
-    platform: "Instagram",
-    category: "Cold Outreach",
-    status: "Active",
-    timesUsed: 34,
-    lastUpdated: "2 days ago",
-    body: "Hi {{first_name}},\n\nI came across your profile and really liked your work in real estate. Since you're active in {{city}}, I wanted to reach out. I noticed your website {{website}} could use some lead automation. Let's connect!"
-  },
-  {
-    id: "2",
-    name: "Luxury Home Follow-up",
-    platform: "Instagram",
-    category: "Follow Up",
-    status: "Active",
-    timesUsed: 12,
-    lastUpdated: "1 week ago",
-    body: "Hey {{first_name}},\n\nJust bubbling this up to the top of your inbox. Did you get a chance to look at the portfolio I sent over to {{business}}?"
-  },
-  {
-    id: "3",
-    name: "B2B Connection Request",
-    platform: "LinkedIn",
-    category: "Cold Outreach",
-    status: "Draft",
-    timesUsed: 0,
-    lastUpdated: "Just now",
-    subject: "Connecting regarding {{industry}}",
-    body: "Hello {{first_name}},\n\nI saw your work at {{business}} and am very impressed by your {{industry}} background. I'd love to add you to my professional network."
-  },
-  {
-    id: "4",
-    name: "SEO Audit Pitch",
-    platform: "LinkedIn",
-    category: "SEO",
-    status: "Active",
-    timesUsed: 89,
-    lastUpdated: "3 weeks ago",
-    subject: "Quick question about {{website}}",
-    body: "Hi {{first_name}},\n\nI was doing some research on {{industry}} companies in {{city}} and found {{business}}. I ran a quick technical audit on {{website}} and found a few critical errors holding you back from page 1."
-  }
-];
 
 const MOCK_LEADS = [
   {
@@ -132,7 +80,7 @@ const VARIABLE_GROUPS = [
 
 // ------------------------------------------------------------------
 // ------------------------------------------------------------------
-const TemplateCard = React.memo(({ template, onClick }: { template: Template, onClick: () => void }) => {
+const TemplateCard = React.memo(({ template, onClick }: { template: MessageTemplate, onClick: () => void }) => {
   return (
     <div 
       onClick={onClick}
@@ -141,16 +89,16 @@ const TemplateCard = React.memo(({ template, onClick }: { template: Template, on
       <div className="flex justify-between items-start mb-4">
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center gap-2">
-            {template.platform === "Instagram" ? (
+            {template.platform?.toLowerCase() === "instagram" ? (
               <div className="text-pink-500"><FaInstagram className="w-4 h-4" /></div>
             ) : (
               <div className="text-[#0077b5]"><FaLinkedin className="w-4 h-4" /></div>
             )}
             <span className={cn(
               "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded border",
-              template.status === "Active" ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20" : "bg-muted text-muted-foreground border-border"
+              "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
             )}>
-              {template.status}
+              Active
             </span>
           </div>
           <h3 className="font-semibold text-base line-clamp-1">{template.name}</h3>
@@ -159,8 +107,8 @@ const TemplateCard = React.memo(({ template, onClick }: { template: Template, on
 
       <div className="flex items-center gap-4 text-xs text-muted-foreground mt-auto">
         <span className="font-medium bg-muted/50 px-2 py-0.5 rounded text-foreground/80">{template.category}</span>
-        <span className="flex items-center gap-1 font-medium"><Users className="w-3.5 h-3.5" /> {template.timesUsed} uses</span>
-        <span className="ml-auto">{template.lastUpdated}</span>
+        <span className="flex items-center gap-1 font-medium"><Users className="w-3.5 h-3.5" /> 0 uses</span>
+        <span className="ml-auto">{new Date(template.created_at).toLocaleDateString()}</span>
       </div>
     </div>
   );
@@ -173,14 +121,20 @@ TemplateCard.displayName = "TemplateCard";
 export default function TemplatesPage() {
   const [view, setView] = useState<"list" | "editor">("list");
   
+  // Queries & Mutations
+  const { data: templatesData, isLoading } = useTemplates({ limit: 100 });
+  const templates = templatesData?.items || [];
+  const createTemplate = useCreateTemplate();
+  const updateTemplate = useUpdateTemplate();
+  const deleteTemplate = useDeleteTemplate();
+
   // List State
   const [searchQuery, setSearchQuery] = useState("");
   const [platformFilter, setPlatformFilter] = useState<Platform>("All");
   const [categoryFilter, setCategoryFilter] = useState<Category>("All");
-  const [templates, setTemplates] = useState<Template[]>(MOCK_TEMPLATES);
   
   // Editor State
-  const [editingTemplate, setEditingTemplate] = useState<Template | null>(null);
+  const [editingTemplate, setEditingTemplate] = useState<Partial<MessageTemplate> | null>(null);
   const [testLeadId, setTestLeadId] = useState("l1");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -196,16 +150,15 @@ export default function TemplatesPage() {
       editingTemplate.name !== originalTemplate.name ||
       editingTemplate.platform !== originalTemplate.platform ||
       editingTemplate.category !== originalTemplate.category ||
-      editingTemplate.body !== originalTemplate.body ||
-      editingTemplate.subject !== originalTemplate.subject
+      editingTemplate.template_body !== originalTemplate.template_body
     );
   }, [editingTemplate, originalTemplate]);
 
   // Filtered Templates
   const filteredTemplates = templates.filter(t => {
     const matchesSearch = t.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesPlatform = platformFilter === "All" || t.platform === platformFilter;
-    const matchesCategory = categoryFilter === "All" || t.category === categoryFilter;
+    const matchesPlatform = platformFilter === "All" || (t.platform?.toLowerCase() === platformFilter.toLowerCase());
+    const matchesCategory = categoryFilter === "All" || (t.category?.toLowerCase() === categoryFilter.toLowerCase());
     return matchesSearch && matchesPlatform && matchesCategory;
   });
 
@@ -221,36 +174,55 @@ export default function TemplatesPage() {
     if (view === "editor") {
       adjustTextareaHeight();
     }
-  }, [editingTemplate?.body, view]);
+  }, [editingTemplate?.template_body, view]);
 
   const handleCreateNew = () => {
     setEditingTemplate({
-      id: Math.random().toString(),
       name: "New Template",
-      platform: "Instagram",
+      platform: "instagram",
       category: "Cold Outreach",
-      status: "Draft",
-      timesUsed: 0,
-      lastUpdated: "Just now",
-      body: ""
+      template_body: ""
     });
     setView("editor");
   };
 
-  const handleEdit = (t: Template) => {
+  const handleEdit = (t: MessageTemplate) => {
     setEditingTemplate({ ...t });
     setView("editor");
   };
 
   const handleSave = () => {
     if (!editingTemplate) return;
-    setTemplates(prev => {
-      const exists = prev.find(p => p.id === editingTemplate.id);
-      if (exists) {
-        return prev.map(p => p.id === editingTemplate.id ? { ...editingTemplate, lastUpdated: "Just now" } : p);
-      }
-      return [{ ...editingTemplate, lastUpdated: "Just now" }, ...prev];
-    });
+    
+    if (editingTemplate.id) {
+      updateTemplate.mutate({ id: editingTemplate.id, data: {
+        name: editingTemplate.name,
+        platform: editingTemplate.platform,
+        category: editingTemplate.category,
+        template_body: editingTemplate.template_body
+      }});
+    } else {
+      createTemplate.mutate({
+        name: editingTemplate.name || "New Template",
+        platform: editingTemplate.platform || "instagram",
+        category: editingTemplate.category || "Cold Outreach",
+        template_body: editingTemplate.template_body || ""
+      }, {
+        onSuccess: (data) => {
+          setEditingTemplate(data);
+        }
+      });
+    }
+  };
+
+  const handleDelete = () => {
+    if (editingTemplate?.id) {
+      deleteTemplate.mutate(editingTemplate.id, {
+        onSuccess: () => {
+          handleBack();
+        }
+      });
+    }
   };
 
   const handleBack = () => {
@@ -263,11 +235,11 @@ export default function TemplatesPage() {
     
     const start = textareaRef.current.selectionStart;
     const end = textareaRef.current.selectionEnd;
-    const text = editingTemplate.body;
+    const text = editingTemplate.template_body || "";
     
     const newBody = text.substring(0, start) + variable + text.substring(end);
     
-    setEditingTemplate({ ...editingTemplate, body: newBody });
+    setEditingTemplate({ ...editingTemplate, template_body: newBody });
     
     // Focus and restore cursor position after render
     setTimeout(() => {
@@ -356,19 +328,27 @@ export default function TemplatesPage() {
         </div>
 
         {/* Templates Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredTemplates.map(template => (
-            <TemplateCard key={template.id} template={template} onClick={() => handleEdit(template)} />
-          ))}
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <Skeleton className="h-32 rounded-xl" />
+            <Skeleton className="h-32 rounded-xl" />
+            <Skeleton className="h-32 rounded-xl" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {filteredTemplates.map(template => (
+              <TemplateCard key={template.id} template={template} onClick={() => handleEdit(template)} />
+            ))}
 
-          {filteredTemplates.length === 0 && (
-            <div className="col-span-full py-16 flex flex-col items-center justify-center text-center bg-muted/5 rounded-xl border border-dashed border-border/60">
-              <LayoutTemplate className="w-10 h-10 text-muted-foreground/50 mb-3" />
-              <h3 className="text-base font-semibold mb-1">No templates found</h3>
-              <p className="text-sm text-muted-foreground">Adjust your filters or create a new template.</p>
-            </div>
-          )}
-        </div>
+            {filteredTemplates.length === 0 && (
+              <div className="col-span-full py-16 flex flex-col items-center justify-center text-center bg-muted/5 rounded-xl border border-dashed border-border/60">
+                <LayoutTemplate className="w-10 h-10 text-muted-foreground/50 mb-3" />
+                <h3 className="text-base font-semibold mb-1">No templates found</h3>
+                <p className="text-sm text-muted-foreground">Adjust your filters or create a new template.</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -421,7 +401,7 @@ export default function TemplatesPage() {
                   <DropdownMenuItem className="text-xs cursor-pointer">
                     <Copy className="w-3.5 h-3.5 mr-2" /> Duplicate
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="text-xs text-red-500 cursor-pointer focus:bg-red-500/10 focus:text-red-500">
+                  <DropdownMenuItem className="text-xs text-red-500 cursor-pointer focus:bg-red-500/10 focus:text-red-500" onClick={handleDelete} disabled={deleteTemplate.isPending || !editingTemplate.id}>
                     <Trash2 className="w-3.5 h-3.5 mr-2" /> Delete
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -429,11 +409,11 @@ export default function TemplatesPage() {
 
               <Button 
                 onClick={handleSave} 
-                disabled={!hasUnsavedChanges}
+                disabled={!hasUnsavedChanges || updateTemplate.isPending || createTemplate.isPending}
                 size="sm" 
                 className="h-9 px-4 font-medium"
               >
-                <Save className="w-4 h-4 mr-2" /> Save Template
+                <Save className="w-4 h-4 mr-2" /> {updateTemplate.isPending || createTemplate.isPending ? "Saving..." : "Save Template"}
               </Button>
             </div>
           </div>
@@ -464,8 +444,8 @@ export default function TemplatesPage() {
                     onChange={(e) => setEditingTemplate({...editingTemplate, platform: e.target.value as any})}
                     className="h-9 bg-background border border-input rounded-md px-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
                   >
-                    <option value="Instagram">Instagram</option>
-                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="linkedin">LinkedIn</option>
                   </select>
                 </div>
                 <div className="flex flex-col gap-2">
@@ -484,17 +464,7 @@ export default function TemplatesPage() {
                 </div>
               </div>
 
-              {editingTemplate.platform === "LinkedIn" && (
-                <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-muted-foreground">Subject</label>
-                  <Input 
-                    value={editingTemplate.subject || ""}
-                    onChange={e => setEditingTemplate({...editingTemplate, subject: e.target.value})}
-                    placeholder="Connecting regarding {{industry}}"
-                    className="h-9 max-w-lg"
-                  />
-                </div>
-              )}
+
 
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
@@ -502,14 +472,14 @@ export default function TemplatesPage() {
                 </div>
                 <textarea 
                   ref={textareaRef}
-                  value={editingTemplate.body}
-                  onChange={e => setEditingTemplate({...editingTemplate, body: e.target.value})}
+                  value={editingTemplate.template_body}
+                  onChange={e => setEditingTemplate({...editingTemplate, template_body: e.target.value})}
                   className="w-full p-4 rounded-md border border-input bg-background text-[15px] leading-relaxed resize-none focus:outline-none focus:ring-1 focus:ring-ring min-h-[220px] max-h-[500px] overflow-y-auto"
                   placeholder="Start composing your message..."
                 />
                 <div className="flex justify-end mt-1">
-                  <span className={cn("text-xs font-medium", editingTemplate.body.length > 1000 ? "text-red-500" : "text-muted-foreground")}>
-                    {editingTemplate.body.length} / 1000 chars
+                  <span className={cn("text-xs font-medium", (editingTemplate.template_body?.length || 0) > 1000 ? "text-red-500" : "text-muted-foreground")}>
+                    {editingTemplate.template_body?.length || 0} / 1000 chars
                   </span>
                 </div>
               </div>
@@ -574,13 +544,7 @@ export default function TemplatesPage() {
                   <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Today 9:41 AM</span>
                 </div>
 
-                {editingTemplate.platform === "LinkedIn" && editingTemplate.subject && (
-                  <div className="px-3 py-2 bg-muted/50 border border-border/40 rounded-md text-[13px] font-semibold text-foreground/90"
-                    dangerouslySetInnerHTML={{ __html: renderPreview(editingTemplate.subject, testLead) }}
-                  />
-                )}
-                
-                {editingTemplate.body.trim() === "" ? (
+                {(!editingTemplate.template_body || editingTemplate.template_body.trim() === "") ? (
                   <div className="py-12 flex items-center justify-center text-center">
                      <p className="text-sm text-muted-foreground italic">Start typing to see the preview.</p>
                   </div>
@@ -592,12 +556,12 @@ export default function TemplatesPage() {
                     <div className="flex flex-col gap-1 w-full">
                       <div className="flex items-center gap-1.5 ml-1">
                         <span className="text-[13px] font-medium text-muted-foreground">{testLead.name}</span>
-                        {editingTemplate.platform === "Instagram" && <FaInstagram className="w-3 h-3 text-pink-500/80" />}
-                        {editingTemplate.platform === "LinkedIn" && <FaLinkedin className="w-3 h-3 text-[#0077b5]/80" />}
+                        {editingTemplate.platform?.toLowerCase() === "instagram" && <FaInstagram className="w-3 h-3 text-pink-500/80" />}
+                        {editingTemplate.platform?.toLowerCase() === "linkedin" && <FaLinkedin className="w-3 h-3 text-[#0077b5]/80" />}
                       </div>
                       <div 
                         className="px-4 py-3 bg-muted/40 border border-border/40 rounded-2xl rounded-tl-sm text-[14px] leading-relaxed whitespace-pre-wrap text-foreground/90 w-fit max-w-[95%] shadow-sm"
-                        dangerouslySetInnerHTML={{ __html: renderPreview(editingTemplate.body, testLead) }}
+                        dangerouslySetInnerHTML={{ __html: renderPreview(editingTemplate.template_body || "", testLead) }}
                       />
                     </div>
                   </div>

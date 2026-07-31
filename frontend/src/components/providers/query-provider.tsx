@@ -3,9 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 
-export default function QueryProvider({ children }: { children: React.ReactNode }) {
-  // We use useState to ensure the QueryClient is only created once per component lifecycle.
-  // This prevents the cache from being reset if this component re-renders.
+export function QueryProvider({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
     () =>
       new QueryClient({

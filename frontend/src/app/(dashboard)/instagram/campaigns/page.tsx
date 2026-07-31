@@ -5,12 +5,14 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { CampaignsTable } from "@/components/instagram/campaigns-table";
-import { useScrapingCampaigns } from "@/hooks/use-instagram";
+import { useCampaigns } from "@/hooks/use-campaigns";
 import { useRouter } from "next/navigation";
 
 export default function InstagramCampaignsPage() {
-  const { data: campaigns, isLoading } = useScrapingCampaigns();
+  const { data: campaignsData, isLoading } = useCampaigns({ platform: "Instagram" });
   const router = useRouter();
+
+  const campaigns = campaignsData?.items || [];
 
   return (
     <div className="flex flex-col gap-6 pb-8">

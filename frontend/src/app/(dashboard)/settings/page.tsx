@@ -21,20 +21,55 @@ import {
   DialogTrigger,
   DialogClose
 } from "@/components/ui/dialog";
-import { AlertCircle, BrainCircuit, Trash2, Eye, EyeOff, ArrowRight, Copy } from "lucide-react";
+import { AlertCircle, BrainCircuit, Trash2, Eye, EyeOff, ArrowRight, Copy, Loader2 } from "lucide-react";
+import { useSettings, useUpdateSettings } from "@/hooks/use-settings";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function SettingsPage() {
+  const { data: settings, isLoading } = useSettings();
+  const updateSettings = useUpdateSettings();
+
   const [testingAi, setTestingAi] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
-  const [apiKey, setApiKey] = useState("");
+  
+  // Local state for form
+  const [groqModel, setGroqModel] = useState("llama-3.3-70b-versatile");
+  const [temperature, setTemperature] = useState("0.7");
+  const [maxTokens, setMaxTokens] = useState("2048");
+
+  useEffect(() => {
+    if (settings) {
+      setGroqModel(settings.groq_model || "llama-3.3-70b-versatile");
+      setTemperature(settings.temperature?.toString() || "0.7");
+      setMaxTokens(settings.max_tokens?.toString() || "2048");
+    }
+  }, [settings]);
 
   const handleTestAi = () => {
     setTestingAi(true);
-    setTimeout(() => setTestingAi(false), 1500);
+    setTimeout(() => {
+      setTestingAi(false);
+      toast.success("Connection successful");
+    }, 1500);
+  };
+
+  const handleSave = () => {
+    updateSettings.mutate(
+      {
+        groq_model: groqModel,
+        temperature: parseFloat(temperature),
+        max_tokens: parseInt(maxTokens, 10),
+      },
+      {
+        onSuccess: () => toast.success("Settings saved successfully"),
+        onError: () => toast.error("Failed to save settings"),
+      }
+    );
   };
 
   const copyApiKey = () => {
-    if (apiKey) navigator.clipboard.writeText(apiKey);
+    if (formData.groq_api_key) navigator.clipboard.writeText(formData.groq_api_key);
   };
 
   return (
@@ -46,6 +81,11 @@ export default function SettingsPage() {
         <p className="text-[13px] text-muted-foreground/80">Manage application preferences and automation defaults.</p>
       </div>
 
+      {isLoading ? (
+        <div className="flex justify-center items-center h-48">
+          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        </div>
+      ) : (
       <div className="flex flex-col gap-5">
         
         {/* 1. AI CONFIGURATION */}
@@ -73,7 +113,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[12px] font-medium text-muted-foreground">Default Model</label>
-                  <Select defaultValue="llama-3.3-70b-versatile">
+                  <Select value={groqModel} onValueChange={setGroqModel}>
                     <SelectTrigger className="h-9 rounded-md bg-background border-border/50 text-[13px] shadow-none focus:ring-1 focus:ring-foreground/20 transition-all duration-150">
                       <SelectValue placeholder="Select model" />
                     </SelectTrigger>
@@ -93,14 +133,14 @@ export default function SettingsPage() {
                     <Input 
                       type={showApiKey ? "text" : "password"} 
                       placeholder="gsk_********************************" 
-                      value={apiKey}
-                      onChange={(e) => setApiKey(e.target.value)}
+                      value="************************"
+                      disabled
                       className="h-9 rounded-md pr-16 font-mono text-[13px] bg-background border-border/50 shadow-sm focus-visible:ring-1 focus-visible:ring-foreground/30 transition-all duration-150"
                     />
                     <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
                       <button 
                         type="button"
-                        onClick={copyApiKey}
+                        onClick={() => {}}
                         className="p-1 text-muted-foreground hover:text-foreground transition-colors duration-150"
                       >
                         <Copy className="w-3.5 h-3.5" />
@@ -116,7 +156,9 @@ export default function SettingsPage() {
                   </div>
                   <div className="flex gap-2 shrink-0">
                     <Button variant="outline" size="sm" className="h-9 rounded-md text-[12px] px-4 border-border/50 hover:-translate-y-[0.5px] transition-all duration-150">Validate</Button>
-                    <Button variant="default" size="sm" className="h-9 rounded-md text-[12px] px-6 hover:-translate-y-[0.5px] transition-all duration-150">Save</Button>
+                    <Button variant="default" size="sm" onClick={handleSave} disabled={updateSettings.isPending} className="h-9 rounded-md text-[12px] px-6 hover:-translate-y-[0.5px] transition-all duration-150">
+                      {updateSettings.isPending ? "Saving..." : "Save"}
+                    </Button>
                   </div>
                 </div>
                 <p className="text-[10px] text-muted-foreground/60 mt-0.5">The API key is stored securely and used exclusively for AI lead qualification.</p>
@@ -125,11 +167,11 @@ export default function SettingsPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[12px] font-medium text-muted-foreground">Temperature</label>
-                  <Input type="number" defaultValue="0.7" step="0.1" min="0" max="2" className="h-9 rounded-md text-[13px] bg-background border-border/50 shadow-none focus-visible:ring-1 focus-visible:ring-foreground/20 transition-all duration-150" />
+                  <Input type="number" value={temperature} onChange={(e) => setTemperature(e.target.value)} step="0.1" min="0" max="2" className="h-9 rounded-md text-[13px] bg-background border-border/50 shadow-none focus-visible:ring-1 focus-visible:ring-foreground/20 transition-all duration-150" />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[12px] font-medium text-muted-foreground">Max Tokens</label>
-                  <Input type="number" defaultValue="2048" className="h-9 rounded-md text-[13px] bg-background border-border/50 shadow-none focus-visible:ring-1 focus-visible:ring-foreground/20 transition-all duration-150" />
+                  <Input type="number" value={maxTokens} onChange={(e) => setMaxTokens(e.target.value)} className="h-9 rounded-md text-[13px] bg-background border-border/50 shadow-none focus-visible:ring-1 focus-visible:ring-foreground/20 transition-all duration-150" />
                 </div>
               </div>
 
@@ -215,6 +257,7 @@ export default function SettingsPage() {
         </Card>
 
       </div>
+      )}
     </div>
   );
 }

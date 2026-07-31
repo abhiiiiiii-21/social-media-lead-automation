@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { ScrapingCampaign, CampaignStatus } from "@/lib/types/instagram";
-import { useScrapingCampaign } from "./use-instagram";
+import { Campaign } from "@/lib/api/campaigns";
+import { useCampaign } from "./use-campaigns";
 
 export interface SimulatedProfile {
   id: string;
@@ -50,7 +50,7 @@ export type PipelineStage =
   | "Completed";
 
 export interface CampaignSimulation {
-  campaign: ScrapingCampaign | undefined;
+  campaign: Campaign | undefined;
   isLoading: boolean;
   metrics: SimulationMetrics;
   currentProfile: SimulatedProfile | null;
@@ -58,7 +58,7 @@ export interface CampaignSimulation {
   activityLogs: ActivityLog[];
   progress: number;
   pipelineStage: PipelineStage;
-  status: CampaignStatus;
+  status: string;
   pause: () => void;
   resume: () => void;
   stop: () => void;
@@ -116,9 +116,9 @@ const generateFakeProfile = (): SimulatedProfile => {
 };
 
 export function useCampaignSimulation(campaignId: string): CampaignSimulation {
-  const { data: campaign, isLoading } = useScrapingCampaign(campaignId);
+  const { data: campaign, isLoading } = useCampaign(campaignId);
   
-  const [status, setStatus] = useState<CampaignStatus>("Pending");
+  const [status, setStatus] = useState<string>("Pending");
   const [metrics, setMetrics] = useState<SimulationMetrics>({
     profilesFound: 0,
     queued: 0,
@@ -159,11 +159,11 @@ export function useCampaignSimulation(campaignId: string): CampaignSimulation {
         setProgress(100);
         setMetrics(prev => ({
           ...prev,
-          profilesFound: campaign.targetCount * 2.5,
-          completed: campaign.targetCount,
-          qualified: campaign.metrics?.qualified || 0,
-          rejected: campaign.metrics?.rejected || 0,
-          duplicatesRemoved: Math.floor(campaign.targetCount * 0.4),
+          profilesFound: 250,
+          completed: 100,
+          qualified: 10,
+          rejected: 90,
+          duplicatesRemoved: 40,
         }));
       }
     }
@@ -177,7 +177,7 @@ export function useCampaignSimulation(campaignId: string): CampaignSimulation {
     if (status === ("Connecting" as any)) {
       const timer = setTimeout(() => {
         addLog("Searching Instagram...", "info");
-        setStatus("Collecting" as CampaignStatus);
+        setStatus("Collecting");
         setPipelineStage("Searching");
       }, 1500);
       return () => clearTimeout(timer);
@@ -289,7 +289,7 @@ export function useCampaignSimulation(campaignId: string): CampaignSimulation {
   }, [addLog]);
 
   const resume = useCallback(() => {
-    setStatus("Collecting" as CampaignStatus);
+    setStatus("Collecting");
     addLog("Campaign Resumed", "info");
   }, [addLog]);
 
