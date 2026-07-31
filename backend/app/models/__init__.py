@@ -10,6 +10,7 @@ from app.models.ai_discovery import AIDiscovery
 from app.models.template import MessageTemplate
 from app.models.website_analysis import WebsiteAnalysis
 from app.models.contact_history import ContactHistory
+from app.models.execution import CampaignExecution, ExecutionState, ExecutionWorker
 
 __all__ = [
     "AIUsage",
@@ -24,4 +25,7 @@ __all__ = [
     "MessageTemplate",
     "WebsiteAnalysis",
     "ContactHistory",
+    "CampaignExecution",
+    "ExecutionState",
+    "ExecutionWorker",
 ]
