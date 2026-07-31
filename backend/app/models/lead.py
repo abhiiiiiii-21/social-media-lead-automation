@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from app.models.campaign import Campaign
     from app.models.queue import Queue
     from app.models.website_analysis import WebsiteAnalysis
+    from app.models.contact_history import ContactHistory
 
 
 class Lead(BaseModel):
@@ -51,4 +52,7 @@ class Lead(BaseModel):
     )
     queue_items: Mapped[List["Queue"]] = relationship(
         "Queue", back_populates="lead", cascade="all, delete-orphan"
+    )
+    contact_histories: Mapped[List["ContactHistory"]] = relationship(
+        "ContactHistory", back_populates="lead", cascade="all, delete-orphan"
     )

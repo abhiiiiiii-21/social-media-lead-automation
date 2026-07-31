@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from app.models.lead import Lead
     from app.models.log import ExecutionLog
     from app.models.queue import Queue
+    from app.models.contact_history import ContactHistory
 
 
 class Campaign(BaseModel):
@@ -28,4 +29,7 @@ class Campaign(BaseModel):
     )
     execution_logs: Mapped[List["ExecutionLog"]] = relationship(
         "ExecutionLog", back_populates="campaign", cascade="all, delete-orphan"
+    )
+    contact_histories: Mapped[List["ContactHistory"]] = relationship(
+        "ContactHistory", back_populates="campaign", cascade="all, delete-orphan"
     )

@@ -7,6 +7,7 @@ from app.database.base import BaseModel
 
 if TYPE_CHECKING:
     from app.models.queue import Queue
+    from app.models.contact_history import ContactHistory
 
 
 class MessageTemplate(BaseModel):
@@ -20,4 +21,7 @@ class MessageTemplate(BaseModel):
     # Relationships
     queue_items: Mapped[List["Queue"]] = relationship(
         "Queue", back_populates="template", cascade="all, delete-orphan"
+    )
+    contact_histories: Mapped[List["ContactHistory"]] = relationship(
+        "ContactHistory", back_populates="template", cascade="all, delete-orphan"
     )

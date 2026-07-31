@@ -9,6 +9,7 @@ from app.models.settings import Settings
 from app.models.ai_discovery import AIDiscovery
 from app.models.template import MessageTemplate
 from app.models.website_analysis import WebsiteAnalysis
+from app.models.contact_history import ContactHistory
 
 __all__ = [
     "AIUsage",
@@ -22,4 +23,5 @@ __all__ = [
     "AIDiscovery",
     "MessageTemplate",
     "WebsiteAnalysis",
+    "ContactHistory",
 ]
