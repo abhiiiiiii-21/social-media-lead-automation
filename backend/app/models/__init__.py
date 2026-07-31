@@ -1,5 +1,6 @@
 from app.models.ai_usage import AIUsage
 from app.models.campaign import Campaign
+from app.models.import_history import ImportHistory
 from app.models.lead import Lead
 from app.models.log import ExecutionLog
 from app.models.queue import Queue
@@ -11,6 +12,7 @@ from app.models.website_analysis import WebsiteAnalysis
 __all__ = [
     "AIUsage",
     "Campaign",
+    "ImportHistory",
     "Lead",
     "ExecutionLog",
     "Queue",
