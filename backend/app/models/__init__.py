@@ -6,6 +6,7 @@ from app.models.log import ExecutionLog
 from app.models.queue import Queue
 from app.models.session import BrowserSession
 from app.models.settings import Settings
+from app.models.ai_discovery import AIDiscovery
 from app.models.template import MessageTemplate
 from app.models.website_analysis import WebsiteAnalysis
 
@@ -18,6 +19,7 @@ __all__ = [
     "Queue",
     "BrowserSession",
     "Settings",
+    "AIDiscovery",
     "MessageTemplate",
     "WebsiteAnalysis",
 ]

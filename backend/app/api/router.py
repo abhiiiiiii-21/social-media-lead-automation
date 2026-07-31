@@ -11,6 +11,9 @@ api_router.include_router(imports.router)
 api_router.include_router(accounts.router)
 api_router.include_router(scraper.router)
 
+from app.ai.discovery import router as discovery_router
+api_router.include_router(discovery_router.router, prefix="/ai", tags=["ai"])
+
 # Health routes are generally at the root, but we can include them in api or root
 root_router = APIRouter()
 root_router.include_router(health.router, tags=["system"])
