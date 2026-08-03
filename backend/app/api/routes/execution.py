@@ -3,8 +3,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from typing import List
 
-from app.api.dependencies import get_db
-from app.schemas.execution import ExecutionStateResponse, ExecutionStatusResponse, StartExecutionRequest
+from app.database.session import get_db
+from app.schemas.execution import (
+    ExecutionStateResponse,
+    ExecutionStatusResponse,
+    ExecutionLogResponse,
+    StartExecutionRequest,
+)
 from app.automation.execution.execution_manager import execution_manager
 from app.automation.execution.progress_tracker import get_execution_state
 from app.models.execution import CampaignExecution
@@ -72,7 +77,13 @@ async def get_campaign_status(
     result = await db.execute(stmt)
     execution = result.scalars().first()
     if not execution:
-        raise HTTPException(status_code=404, detail="Execution not found")
+        return ExecutionStatusResponse(
+            campaign_id=campaign_id,
+            status="Created",
+            started_at=None,
+            finished_at=None,
+            error=None
+        )
     return execution
 
 
@@ -85,7 +96,7 @@ async def get_campaign_progress(
     return state
 
 
-@router.get("/logs/{campaign_id}")
+@router.get("/logs/{campaign_id}", response_model=List[ExecutionLogResponse])
 async def get_campaign_logs(
     campaign_id: str,
     limit: int = 100,
@@ -93,4 +104,18 @@ async def get_campaign_logs(
 ):
     stmt = select(ExecutionLog).where(ExecutionLog.campaign_id == campaign_id).order_by(ExecutionLog.created_at.desc()).limit(limit)
     result = await db.execute(stmt)
-    return result.scalars().all()
+    logs = result.scalars().all()
+    return list(logs) if logs else []
+
+
+@router.get("/events/{campaign_id}", response_model=List[ExecutionLogResponse])
+async def get_campaign_events(
+    campaign_id: str,
+    limit: int = 100,
+    db: AsyncSession = Depends(get_db)
+):
+    stmt = select(ExecutionLog).where(ExecutionLog.campaign_id == campaign_id).order_by(ExecutionLog.created_at.desc()).limit(limit)
+    result = await db.execute(stmt)
+    logs = result.scalars().all()
+    return list(logs) if logs else []
+

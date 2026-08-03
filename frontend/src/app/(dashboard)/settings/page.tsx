@@ -69,7 +69,7 @@ export default function SettingsPage() {
   };
 
   const copyApiKey = () => {
-    if (formData.groq_api_key) navigator.clipboard.writeText(formData.groq_api_key);
+    toast.info("API Key is secured in backend environment configuration");
   };
 
   return (
@@ -113,7 +113,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[12px] font-medium text-muted-foreground">Default Model</label>
-                  <Select value={groqModel} onValueChange={setGroqModel}>
+                  <Select value={groqModel} onValueChange={(val) => val && setGroqModel(val)}>
                     <SelectTrigger className="h-9 rounded-md bg-background border-border/50 text-[13px] shadow-none focus:ring-1 focus:ring-foreground/20 transition-all duration-150">
                       <SelectValue placeholder="Select model" />
                     </SelectTrigger>

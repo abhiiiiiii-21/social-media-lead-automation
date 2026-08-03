@@ -68,7 +68,7 @@ export function ExecutionHeader({ simulation }: { simulation: CampaignSimulation
               {isRunning ? "Running" : status}
             </Badge>
             <Badge variant="outline" className="bg-muted/50 border-border/50 text-muted-foreground font-medium hidden sm:inline-flex">
-              {campaign.scraperType}
+              {campaign.scraperType || campaign.config?.scraperType || campaign.platform}
             </Badge>
           </div>
         </div>

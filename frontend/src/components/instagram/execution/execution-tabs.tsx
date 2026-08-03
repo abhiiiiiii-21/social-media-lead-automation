@@ -21,21 +21,33 @@ export function ExecutionTabs({ simulation }: { simulation: CampaignSimulation }
         <Card className="rounded-xl border-border/50 bg-background/50 shadow-none">
           <CardContent className="p-6">
             <h3 className="text-sm font-semibold tracking-tight mb-4">Configuration Snapshot</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-8 text-sm">
-              {Object.entries(campaign.config).map(([key, value]) => {
-                if (value === undefined || value === null || value === "") return null;
-                const formattedKey = key.replace(/([A-Z])/g, ' $1').trim();
-                const displayValue = Array.isArray(value) ? value.join(", ") : 
-                                     typeof value === "boolean" ? (value ? "Yes" : "No") : 
-                                     value.toString();
+            {(() => {
+              const configEntries = Object.entries(campaign.config ?? {});
+              if (configEntries.length === 0) {
                 return (
-                  <div key={key}>
-                    <p className="text-muted-foreground capitalize mb-1">{formattedKey}</p>
-                    <p className="font-medium truncate" title={displayValue}>{displayValue}</p>
-                  </div>
+                  <p className="text-sm text-muted-foreground italic py-2">
+                    No specific configuration parameters set for this campaign.
+                  </p>
                 );
-              })}
-            </div>
+              }
+              return (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-8 text-sm">
+                  {configEntries.map(([key, value]) => {
+                    if (value === undefined || value === null || value === "") return null;
+                    const formattedKey = key.replace(/([A-Z])/g, ' $1').trim();
+                    const displayValue = Array.isArray(value) ? value.join(", ") : 
+                                         typeof value === "boolean" ? (value ? "Yes" : "No") : 
+                                         value.toString();
+                    return (
+                      <div key={key}>
+                        <p className="text-muted-foreground capitalize mb-1">{formattedKey}</p>
+                        <p className="font-medium truncate" title={displayValue}>{displayValue}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
           </CardContent>
         </Card>
       </TabsContent>

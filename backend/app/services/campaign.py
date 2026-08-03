@@ -43,7 +43,12 @@ class CampaignService:
     async def create_campaign(
         db: AsyncSession, campaign_in: CampaignCreate
     ) -> Campaign:
-        campaign = Campaign(**campaign_in.model_dump())
+        dump = campaign_in.model_dump()
+        config = dump.pop("config", None)
+        if config and not dump.get("description"):
+            import json
+            dump["description"] = json.dumps(config)
+        campaign = Campaign(**dump)
         db.add(campaign)
         await db.commit()
         await db.refresh(campaign)
@@ -56,6 +61,11 @@ class CampaignService:
         campaign = await CampaignService.get_campaign(db, campaign_id)
 
         update_data = campaign_in.model_dump(exclude_unset=True)
+        config = update_data.pop("config", None)
+        if config is not None and "description" not in update_data:
+            import json
+            update_data["description"] = json.dumps(config)
+
         for field, value in update_data.items():
             setattr(campaign, field, value)
 

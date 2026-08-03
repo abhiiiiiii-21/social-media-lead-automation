@@ -13,12 +13,14 @@ export interface Campaign {
   name: string;
   platform: string;
   status: string;
-  description?: string;
+  description?: string | null;
+  config?: Record<string, any> | null;
+  scraperType?: string | null;
   created_at: string;
   updated_at: string;
 }
 
-export type CampaignCreate = Omit<Campaign, "id" | "created_at" | "updated_at" | "status"> & { status?: string; config?: any };
+export type CampaignCreate = Omit<Campaign, "id" | "created_at" | "updated_at" | "status"> & { status?: string; config?: Record<string, any> };
 export type CampaignUpdate = Partial<CampaignCreate>;
 
 export const campaignsApi = {

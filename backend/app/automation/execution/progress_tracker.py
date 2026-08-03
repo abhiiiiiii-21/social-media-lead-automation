@@ -57,3 +57,16 @@ async def update_progress_metrics(db: AsyncSession, campaign_id: str) -> Executi
     await db.commit()
     await db.refresh(state)
     return state
+
+
+async def get_execution_state(db: AsyncSession, campaign_id: str) -> ExecutionState:
+    """
+    Fetches the current execution state for a campaign, or computes it if not yet created.
+    """
+    stmt = select(ExecutionState).where(ExecutionState.campaign_id == campaign_id)
+    result = await db.execute(stmt)
+    state = result.scalars().first()
+    if not state:
+        state = await update_progress_metrics(db, campaign_id)
+    return state
+

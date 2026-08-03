@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Campaign } from "@/lib/api/campaigns";
+import { CampaignStatus } from "@/lib/types/instagram";
 import { useCampaign } from "./use-campaigns";
 
 export interface SimulatedProfile {

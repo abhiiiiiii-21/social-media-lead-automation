@@ -44,3 +44,15 @@ class ExecutionStatusResponse(BaseModel):
 
 class StartExecutionRequest(BaseModel):
     instagram_account: str
+
+
+class ExecutionLogResponse(BaseModel):
+    id: str
+    campaign_id: str
+    level: str
+    message: str
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+

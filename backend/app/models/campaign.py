@@ -20,6 +20,18 @@ class Campaign(BaseModel):
     status: Mapped[str] = mapped_column(String(50), nullable=False)
     description: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
+    @property
+    def config(self) -> dict:
+        if self.description:
+            try:
+                import json
+                data = json.loads(self.description)
+                if isinstance(data, dict):
+                    return data
+            except Exception:
+                pass
+        return {}
+
     # Relationships
     leads: Mapped[List["Lead"]] = relationship(
         "Lead", back_populates="campaign", cascade="all, delete-orphan"
