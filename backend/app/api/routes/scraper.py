@@ -6,7 +6,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database.session import get_db
 from app.models.log import ExecutionLog
 from app.schemas.scraper import ScraperStartRequest, ScraperStatusResponse
+from app.schemas.profile_inspector import ProfileInspectRequest, ProfileInspectResponse
 from app.services.scraper_service import ScraperService
+from app.services.profile_inspector_service import ProfileInspectorService
 from app.automation.instagram.progress_tracker import get_job_stats
 
 router = APIRouter(prefix="/scraper", tags=["scraper"])
@@ -118,3 +120,20 @@ async def get_scraping_logs(
         }
         for log in logs
     ]
+
+
+@router.post(
+    "/inspect-profile",
+    response_model=ProfileInspectResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def inspect_single_profile(
+    request: ProfileInspectRequest,
+    session: AsyncSession = Depends(get_db),
+) -> ProfileInspectResponse:
+    """
+    Inspect a single public Instagram profile and extract all publicly available details.
+    """
+    service = ProfileInspectorService(session)
+    return await service.inspect(request)
+

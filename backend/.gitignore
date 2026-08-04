@@ -1,11 +1,55 @@
-venv/
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+
+# Caches & Testing
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment Variables & Secrets
 .env
-storage/logs/*.log
-storage/uploads/*
-storage/exports/*
+.env.*
+!.env.example
+
+# SQLite & Local Databases
 *.db
+*.sqlite
+*.sqlite3
+
+# Storage (preserve directory structure via .gitkeep, ignore runtime files)
+storage/media/*
+!storage/media/.gitkeep
+
+storage/sessions/*
+!storage/sessions/.gitkeep
+
+storage/logs/*
+!storage/logs/.gitkeep
+
+storage/exports/*
+!storage/exports/.gitkeep
+
+storage/uploads/*
+!storage/uploads/.gitkeep
+
+# Playwright & Browser Automation Artifacts
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+
+# OS & Editor Files
 .DS_Store
+Thumbs.db
+*.swp
+*.swo

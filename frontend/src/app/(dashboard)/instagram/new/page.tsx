@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { ScraperTypeCard } from "@/components/instagram/scraper-type-card";
 import { ScraperConfigForm } from "@/components/instagram/scraper-config-form";
 import { LiveSummaryCard } from "@/components/instagram/live-summary-card";
+import { ProfileInspector } from "@/components/instagram/inspector";
 import { ScraperType, ScrapingConfig } from "@/lib/types/instagram";
 import { useCreateCampaign } from "@/hooks/use-campaigns";
 import { useRouter } from "next/navigation";
@@ -73,61 +74,70 @@ export default function NewCampaignPage() {
         description="Configure a scraping campaign to discover targeted Instagram leads."
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <section>
-            <h2 className="text-lg font-semibold tracking-tight mb-4">Select Scraper Type</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {SCRAPER_TYPES.map((type) => (
-                <ScraperTypeCard
-                  key={type}
-                  type={type}
-                  selected={selectedType === type}
-                  onClick={() => {
-                    setSelectedType(type);
-                    setConfig({ campaignName: config.campaignName }); // Keep name, reset the rest
-                  }}
-                />
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <Card className="rounded-xl border-border/50 bg-background/50 shadow-none">
-              <CardContent className="p-6">
-                <h2 className="text-lg font-semibold tracking-tight mb-6">Configuration</h2>
-                <ScraperConfigForm
-                  type={selectedType}
-                  config={config}
-                  setConfig={setConfig}
-                />
-                
-                {/* Fallback button for mobile below the form */}
-                <div className="mt-8 lg:hidden">
-                  <Button 
-                    size="lg" 
-                    className="w-full font-medium" 
-                    onClick={handleStartScraping} 
-                    disabled={isPending || !isValid}
-                  >
-                    Start Scraping
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </section>
+      {/* Scraper Type Selector */}
+      <section>
+        <h2 className="text-lg font-semibold tracking-tight mb-4">Select Scraper Type</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {SCRAPER_TYPES.map((type) => (
+            <ScraperTypeCard
+              key={type}
+              type={type}
+              selected={selectedType === type}
+              onClick={() => {
+                setSelectedType(type);
+                setConfig({ campaignName: config.campaignName }); // Keep name, reset the rest
+              }}
+            />
+          ))}
         </div>
+      </section>
 
-        <div className="hidden lg:block lg:col-span-1 relative">
-          <LiveSummaryCard 
-            type={selectedType}
-            config={config}
-            isPending={isPending}
-            onSubmit={handleStartScraping}
-            isValid={isValid}
-          />
+      {/* Profile Scraper: Dedicated Profile Inspector */}
+      {selectedType === "Profile Scraper" ? (
+        <section className="pt-2">
+          <ProfileInspector showTitle={false} />
+        </section>
+      ) : (
+        /* Lead Generation Scrapers: AI Discovery / Comment / Hashtag */
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <section>
+              <Card className="rounded-xl border-border/50 bg-background/50 shadow-none">
+                <CardContent className="p-6">
+                  <h2 className="text-lg font-semibold tracking-tight mb-6">Configuration</h2>
+                  <ScraperConfigForm
+                    type={selectedType}
+                    config={config}
+                    setConfig={setConfig}
+                  />
+                  
+                  {/* Fallback button for mobile below the form */}
+                  <div className="mt-8 lg:hidden">
+                    <Button 
+                      size="lg" 
+                      className="w-full font-medium" 
+                      onClick={handleStartScraping} 
+                      disabled={isPending || !isValid}
+                    >
+                      Start Scraping
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </section>
+          </div>
+
+          <div className="hidden lg:block lg:col-span-1 relative">
+            <LiveSummaryCard 
+              type={selectedType}
+              config={config}
+              isPending={isPending}
+              onSubmit={handleStartScraping}
+              isValid={isValid}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

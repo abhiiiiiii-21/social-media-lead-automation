@@ -51,10 +51,27 @@ export interface Tag {
   color: string;
 }
 
+export interface InstagramPost {
+  id: string;
+  imageUrl: string;
+  caption?: string;
+  likes?: number;
+  comments?: number;
+  timestamp?: string;
+  postUrl?: string;
+}
+
+export interface ExternalLink {
+  title?: string;
+  url: string;
+  type?: string;
+}
+
 export interface ResultLead {
   id: string;
   avatarUrl: string;
   username: string;
+  fullName?: string | null;
   businessName: string | null;
   isBusinessAccount?: boolean;
   isVerified?: boolean;
@@ -73,6 +90,8 @@ export interface ResultLead {
   address: string | null;
   facebook: string | null;
   linkedin: string | null;
+  externalLinks?: (string | ExternalLink)[];
+  latestPosts?: InstagramPost[];
   
   // AI & Scoring
   aiScore: number;
@@ -95,3 +114,4 @@ export interface ResultLead {
   addedBy?: string;
   timeline: TimelineEvent[];
 }
+

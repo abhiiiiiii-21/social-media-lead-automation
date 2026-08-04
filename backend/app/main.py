@@ -52,5 +52,16 @@ async def root():
     }
 
 
+import os
+from fastapi.staticfiles import StaticFiles
+
+storage_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "storage")
+media_dir = os.path.join(storage_dir, "media")
+os.makedirs(media_dir, exist_ok=True)
+
+app.mount("/storage", StaticFiles(directory=storage_dir), name="storage")
+app.mount("/media", StaticFiles(directory=media_dir), name="media")
+
 app.include_router(root_router)
 app.include_router(api_router, prefix="/api")
+app.include_router(api_router, prefix="/api/v1")

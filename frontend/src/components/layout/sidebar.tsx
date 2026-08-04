@@ -9,7 +9,8 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Inbox,
-  FileText
+  FileText,
+  UserSearch
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/lib/store/use-sidebar";
@@ -40,6 +41,7 @@ const navigation = [
     title: "Instagram",
     items: [
       { label: "New Campaign", href: "/instagram/new", icon: Search },
+      { label: "Profile Inspector", href: "/instagram/inspector", icon: UserSearch },
       { label: "Campaigns", href: "/instagram/campaigns", icon: Megaphone },
     ],
   },

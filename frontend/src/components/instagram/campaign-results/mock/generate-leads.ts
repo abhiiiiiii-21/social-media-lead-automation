@@ -112,11 +112,44 @@ export function generateMockLeads(count: number = 250): ResultLead[] {
       website,
       email: hasEmail ? `${firstName.toLowerCase()}@${username}.${randomElement(DOMAINS)}` : null,
       phone: hasPhone ? `+1 (${Math.floor(Math.random() * 800 + 200)}) ${Math.floor(Math.random() * 800 + 200)}-${Math.floor(Math.random() * 8000 + 1000)}` : null,
+      fullName: `${firstName} ${lastName}`,
       whatsapp: hasPhone ? `+1 (${Math.floor(Math.random() * 800 + 200)}) ${Math.floor(Math.random() * 800 + 200)}-${Math.floor(Math.random() * 8000 + 1000)}` : null,
       country: randomElement(COUNTRIES),
       address: randomChance(30) ? "123 Ocean Drive, Miami, FL 33139" : null,
       facebook: randomChance(40) ? `https://facebook.com/${username}` : null,
       linkedin: randomChance(60) ? `https://linkedin.com/in/${username}` : null,
+      externalLinks: (hasWebsite && website) ? [
+        { url: website, title: "Official Website", type: "website" },
+        { url: `https://linktr.ee/${username}`, title: "Linktree (Portfolio & Listings)", type: "linktree" },
+      ] : [
+        { url: `https://linktr.ee/${username}`, title: "Linktree", type: "linktree" }
+      ],
+      latestPosts: [
+        {
+          id: `post_1_${username}`,
+          imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80",
+          caption: "Just listed! Stunning modern luxury villa with waterfront views. ✨ DM for private tour.",
+          likes: Math.floor(Math.random() * 800 + 120),
+          comments: Math.floor(Math.random() * 60 + 12),
+          postUrl: `https://instagram.com/p/${username}_1`,
+        },
+        {
+          id: `post_2_${username}`,
+          imageUrl: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80",
+          caption: "Under contract in under 48 hours! Proud of our dedicated team. 🏡🔑",
+          likes: Math.floor(Math.random() * 650 + 90),
+          comments: Math.floor(Math.random() * 45 + 8),
+          postUrl: `https://instagram.com/p/${username}_2`,
+        },
+        {
+          id: `post_3_${username}`,
+          imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&q=80",
+          caption: "Market update for Q3: What buyers and sellers need to know this month. 📈",
+          likes: Math.floor(Math.random() * 420 + 50),
+          comments: Math.floor(Math.random() * 30 + 5),
+          postUrl: `https://instagram.com/p/${username}_3`,
+        },
+      ],
       
       aiScore,
       aiConfidence: Math.floor(Math.random() * 10 + 90),

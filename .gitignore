@@ -1,31 +1,130 @@
-# Dependencies
+# ==============================================================================
+# Dependencies & Package Managers
+# ==============================================================================
 node_modules/
 **/node_modules/
+.pnp
+.pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Next.js build outputs
+# ==============================================================================
+# Python Environments & Caches
+# ==============================================================================
+venv/
+**/venv/
+.venv/
+**/.venv/
+env/
+**/env/
+ENV/
+**/ENV/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+**/.pytest_cache/
+.mypy_cache/
+**/.mypy_cache/
+.ruff_cache/
+**/.ruff_cache/
+.coverage
+htmlcov/
+
+# ==============================================================================
+# Next.js & Frontend Build Outputs
+# ==============================================================================
 .next/
 **/.next/
 out/
 **/out/
 build/
 **/build/
+dist/
+**/dist/
+.turbo/
+**/.turbo/
+*.tsbuildinfo
+.vercel/
+**/.vercel/
 
-# Environment variables & secrets
+# ==============================================================================
+# Databases (SQLite / Local)
+# ==============================================================================
+*.db
+*.sqlite
+*.sqlite3
+
+# ==============================================================================
+# Storage Directories (Backend Runtime Assets)
+# ==============================================================================
+backend/storage/media/*
+!backend/storage/media/.gitkeep
+backend/storage/sessions/*
+!backend/storage/sessions/.gitkeep
+backend/storage/logs/*
+!backend/storage/logs/.gitkeep
+backend/storage/exports/*
+!backend/storage/exports/.gitkeep
+backend/storage/uploads/*
+!backend/storage/uploads/.gitkeep
+
+storage/media/*
+!storage/media/.gitkeep
+storage/sessions/*
+!storage/sessions/.gitkeep
+storage/logs/*
+!storage/logs/.gitkeep
+storage/exports/*
+!storage/exports/.gitkeep
+storage/uploads/*
+!storage/uploads/.gitkeep
+
+# ==============================================================================
+# Playwright & Testing Artifacts
+# ==============================================================================
+test-results/
+**/test-results/
+playwright-report/
+**/playwright-report/
+blob-report/
+**/blob-report/
+.playwright/
+**/.playwright/
+
+# ==============================================================================
+# Environment Variables & Secrets
+# ==============================================================================
 .env
 .env*.local
 *.env
+.env.*
+!.env.example
+!**/.env.example
 
-# Operating System files
-.DS_Store
-*.pem
-
-# IDEs & Editors
-.vscode/
-.idea/
-*.swp
-
-# Logs
+# ==============================================================================
+# Logs & Debug Output
+# ==============================================================================
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+
+# ==============================================================================
+# Operating System & IDE Files
+# ==============================================================================
+.DS_Store
+**/.DS_Store
+Thumbs.db
+*.pem
+.vscode/
+**/.vscode/
+.idea/
+**/.idea/
+*.swp
+*.swo
