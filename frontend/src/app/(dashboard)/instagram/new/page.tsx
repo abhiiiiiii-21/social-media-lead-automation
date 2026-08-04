@@ -54,7 +54,7 @@ export default function NewCampaignPage() {
 
     try {
       const campaign = await createCampaign({
-        name: config.campaignName,
+        name: config.campaignName || "Instagram Campaign",
         platform: "Instagram",
         config: {
           scraperType: selectedType,

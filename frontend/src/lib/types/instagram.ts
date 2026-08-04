@@ -249,3 +249,53 @@ export interface OutreachCampaign {
   name: string;
   status: string;
 }
+
+export interface ScrapedLead {
+  id: string;
+  username: string;
+  fullName?: string;
+  name?: string;
+  handle?: string;
+  followers: number;
+  following: number;
+  posts?: number;
+  postsCount?: number;
+  category?: string;
+  email?: string;
+  phone?: string;
+  website?: string;
+  bio?: string;
+  location?: string;
+  engagementRate?: number;
+  isVerified?: boolean;
+  isBusiness?: boolean;
+  avatarUrl?: string;
+  scrapedAt?: string;
+  status?: string;
+  qualityScore: number;
+  [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export type CampaignStatus = "Draft" | "Running" | "Paused" | "Completed" | "Failed" | "Connecting" | string;
+
+export interface ScrapingCampaign {
+  id: string;
+  name?: string;
+  status: string;
+  target?: string;
+  leadsScraped?: number;
+  totalLeads?: number;
+  [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export type ScraperType = "AI Discovery" | "Comment Scraper" | "Hashtag Scraper" | "Profile Scraper";
+
+export interface ScrapingConfig {
+  campaignName?: string;
+  targetCustomer?: string;
+  postUrl?: string;
+  hashtag?: string;
+  profileUrl?: string;
+  limit?: number;
+  [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
