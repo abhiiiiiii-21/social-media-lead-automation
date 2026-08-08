@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { Campaign } from "@/lib/api/campaigns";
-import { CampaignStatus } from "@/lib/types/instagram";
+import { Campaign, campaignsApi, BackendLead } from "@/lib/api/campaigns";
+import { scraperApi, ScraperStatusResponse, ScraperLogEntry } from "@/lib/api/scraper";
 import { useCampaign } from "./use-campaigns";
 
 export interface SimulatedProfile {
@@ -65,61 +65,57 @@ export interface CampaignSimulation {
   stop: () => void;
 }
 
-const FAKE_USERNAMES = ["floridahomes", "miamirealtor", "luxuryhomes", "naplesrealty", "tampabuilder", "orlandoremax", "zillow_agent", "sunshinerealty"];
-const FAKE_CATEGORIES = ["Real Estate", "Brokerage", "Property Management", "Agent"];
-const FAKE_REASONS = [
-  "✓ Business account",
-  "✓ Website found",
-  "✓ High engagement",
-  "✓ Realtor keywords detected",
-  "✓ Recent activity",
-  "✓ Valid contact info",
-  "✓ High follower quality"
-];
-const FAKE_REJECT_REASONS = [
-  "× Personal profile",
-  "× No website",
-  "× Low activity",
-  "× Spam indicators",
-  "× Wrong industry"
-];
-
-const generateFakeProfile = (): SimulatedProfile => {
-  const isQualified = Math.random() > 0.3;
-  const score = isQualified ? Math.floor(Math.random() * 20 + 80) : Math.floor(Math.random() * 40 + 30);
-  
-  const shuffled = [...FAKE_REASONS].sort(() => 0.5 - Math.random());
-  const reasons = shuffled.slice(0, isQualified ? 4 : 1);
-  
-  if (!isQualified) {
-    reasons.push(FAKE_REJECT_REASONS[Math.floor(Math.random() * FAKE_REJECT_REASONS.length)]);
-    if (Math.random() > 0.5) reasons.push(FAKE_REJECT_REASONS[Math.floor(Math.random() * FAKE_REJECT_REASONS.length)]);
+function mapBackendStage(stage: string): PipelineStage {
+  switch (stage) {
+    case "Loading Comments":
+    case "Extracting Usernames":
+      return "Collecting Profiles";
+    case "Parsing Profiles":
+      return "Extracting Contacts";
+    case "Saving Leads":
+      return "Saving Leads";
+    case "Completed":
+      return "Completed";
+    default:
+      return "Searching";
   }
+}
+
+function mapLeadToProfile(lead: BackendLead): SimulatedProfile {
+  const reasoning: string[] = [];
+  if (lead.email) reasoning.push(`✓ Email: ${lead.email}`);
+  if (lead.phone) reasoning.push(`✓ Phone: ${lead.phone}`);
+  if (lead.website) reasoning.push(`✓ Website: ${lead.website}`);
+  if (lead.category) reasoning.push(`✓ Category: ${lead.category}`);
+  if (reasoning.length === 0) reasoning.push("✓ Verified public profile");
 
   return {
-    id: Math.random().toString(36).substr(2, 9),
-    username: FAKE_USERNAMES[Math.floor(Math.random() * FAKE_USERNAMES.length)] + Math.floor(Math.random() * 999),
-    followers: Math.floor(Math.random() * 20000 + 1000),
-    following: Math.floor(Math.random() * 2000 + 100),
-    posts: Math.floor(Math.random() * 1500 + 50),
-    websiteFound: isQualified ? true : Math.random() > 0.5,
-    emailFound: isQualified ? Math.random() > 0.2 : Math.random() > 0.8,
-    phoneFound: isQualified ? Math.random() > 0.5 : Math.random() > 0.9,
-    isBusiness: isQualified ? true : Math.random() > 0.5,
-    isVerified: Math.random() > 0.8,
-    businessCategory: FAKE_CATEGORIES[Math.floor(Math.random() * FAKE_CATEGORIES.length)],
-    aiScore: score,
-    decision: isQualified ? "Qualified" : "Rejected",
-    reasoning: reasons,
-    avatarUrl: `https://i.pravatar.cc/150?u=${Math.random()}`,
-    timeQualified: isQualified ? new Date() : undefined,
+    id: lead.id,
+    username: lead.username,
+    followers: lead.followers || 0,
+    following: lead.following || 0,
+    posts: 0,
+    websiteFound: Boolean(lead.website),
+    emailFound: Boolean(lead.email),
+    phoneFound: Boolean(lead.phone),
+    isBusiness: Boolean(lead.business_name || lead.category),
+    isVerified: false,
+    businessCategory: lead.category || null,
+    aiScore: lead.qualification_status === "QUALIFIED" ? 92 : 70,
+    decision: lead.qualification_status === "QUALIFIED" ? "Qualified" : "Rejected",
+    reasoning,
+    avatarUrl: lead.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(lead.username)}&background=0D8ABC&color=fff`,
+    timeQualified: lead.created_at ? new Date(lead.created_at) : new Date(),
   };
-};
+}
 
 export function useCampaignSimulation(campaignId: string): CampaignSimulation {
-  const { data: campaign, isLoading } = useCampaign(campaignId);
+  const { data: campaign, isLoading: isCampaignLoading } = useCampaign(campaignId);
   
   const [status, setStatus] = useState<string>("Pending");
+  const [pipelineStage, setPipelineStage] = useState<PipelineStage>("Searching");
+  const [progress, setProgress] = useState(0);
+  
   const [metrics, setMetrics] = useState<SimulationMetrics>({
     profilesFound: 0,
     queued: 0,
@@ -130,182 +126,162 @@ export function useCampaignSimulation(campaignId: string): CampaignSimulation {
     duplicatesRemoved: 0,
     apiRequests: 0,
     runtimeSeconds: 0,
-    estimatedRemainingSeconds: 300,
+    estimatedRemainingSeconds: 0,
   });
   
   const [currentProfile, setCurrentProfile] = useState<SimulatedProfile | null>(null);
   const [recentQualified, setRecentQualified] = useState<SimulatedProfile[]>([]);
   const [activityLogs, setActivityLogs] = useState<ActivityLog[]>([]);
-  const [progress, setProgress] = useState(0);
-  const [pipelineStage, setPipelineStage] = useState<PipelineStage>("Searching");
 
-  const loopRef = useRef<NodeJS.Timeout | null>(null);
-  const runtimeRef = useRef<NodeJS.Timeout | null>(null);
+  // Fetch real status, logs, and leads from backend
+  const pollBackend = useCallback(async () => {
+    if (!campaignId) return;
 
-  const addLog = useCallback((message: string, type: ActivityLog["type"] = "info") => {
-    setActivityLogs(prev => [
-      { id: Math.random().toString(), timestamp: new Date(), message, type },
-      ...prev
-    ].slice(0, 100));
-  }, []);
+    try {
+      // 1. Get live scraper status
+      const statusRes = await scraperApi.getStatus(campaignId);
+      const stats = statusRes.stats;
 
-  useEffect(() => {
-    if (campaign && status === "Pending") {
-      setStatus("Connecting" as CampaignStatus);
-      addLog("Generated AI search query", "info");
-      
-      if (campaign.status === "Completed") {
-        setStatus("Completed");
-        setPipelineStage("Completed");
-        setProgress(100);
-        setMetrics(prev => ({
-          ...prev,
-          profilesFound: 250,
-          completed: 100,
-          qualified: 10,
-          rejected: 90,
-          duplicatesRemoved: 40,
-        }));
+      if (statusRes.status) {
+        setStatus(
+          statusRes.status === "RUNNING" ? "Running" :
+          statusRes.status === "COMPLETED" ? "Completed" :
+          statusRes.status === "FAILED" ? "Failed" :
+          statusRes.status === "STOPPED" ? "Paused" : "Pending"
+        );
       }
-    }
-  }, [campaign, status, addLog]);
 
-  useEffect(() => {
-    if (status === "Completed" || status === "Failed" || status === "Pending") {
-      return;
-    }
-
-    if (status === ("Connecting" as any)) {
-      const timer = setTimeout(() => {
-        addLog("Searching Instagram...", "info");
-        setStatus("Collecting");
-        setPipelineStage("Searching");
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-
-    if (status === ("Paused" as any)) {
-      return;
-    }
-
-    runtimeRef.current = setInterval(() => {
-      setMetrics(prev => ({ 
-        ...prev, 
-        runtimeSeconds: prev.runtimeSeconds + 1,
-        estimatedRemainingSeconds: Math.max(0, prev.estimatedRemainingSeconds - 1)
-      }));
-    }, 1000);
-
-    let stageCounter = 0;
-
-    loopRef.current = setInterval(() => {
-      stageCounter++;
-      
-      if (Math.random() < 0.05) {
-        addLog("Rate limit detected", "warning");
-        setTimeout(() => addLog("Retrying...", "info"), 1000);
-        return;
+      if (statusRes.stage) {
+        setPipelineStage(mapBackendStage(statusRes.stage));
       }
-      
-      setProgress(p => {
-        const newProgress = Math.min(100, p + (Math.random() * 0.8));
-        
-        if (newProgress >= 100) {
-          setStatus("Completed");
-          setPipelineStage("Completed");
-          addLog("Saving to database", "success");
-          return 100;
-        }
 
-        if (newProgress < 20 && pipelineStage !== "Searching") {
-          setPipelineStage("Searching");
-        } else if (newProgress >= 20 && newProgress < 40 && pipelineStage !== "Collecting Profiles") {
-          setPipelineStage("Collecting Profiles");
-          addLog(`Retrieved ${Math.floor(newProgress * 125)} profiles`, "success");
-          addLog("Removing duplicates", "info");
-        } else if (newProgress >= 40 && newProgress < 60 && pipelineStage !== "Extracting Contacts") {
-          setPipelineStage("Extracting Contacts");
-          addLog("Downloading metadata", "info");
-        } else if (newProgress >= 60 && newProgress < 90 && pipelineStage !== "AI Qualification") {
-          setPipelineStage("AI Qualification");
-        } else if (newProgress >= 90 && pipelineStage !== "Saving Leads") {
-          setPipelineStage("Saving Leads");
+      if (stats) {
+        const target = stats.target_count || 100;
+        const inserted = stats.profiles_inserted || 0;
+        const processed = stats.profiles_processed || 0;
+        const discovered = stats.profiles_discovered || 0;
+        const duplicates = stats.duplicates_skipped || 0;
+        const errors = stats.errors || 0;
+        const elapsed = stats.elapsed_time_sec || 0;
+
+        const calculatedProgress = target > 0 ? Math.min(100, Math.round((inserted / target) * 100)) : 0;
+        setProgress(statusRes.status === "COMPLETED" ? 100 : calculatedProgress);
+
+        const estRemaining = inserted > 0 && inserted < target 
+          ? Math.round(((target - inserted) / inserted) * elapsed)
+          : 0;
+
+        setMetrics({
+          profilesFound: discovered,
+          queued: Math.max(0, target - inserted),
+          processing: statusRes.is_running ? 1 : 0,
+          completed: processed,
+          qualified: inserted,
+          rejected: errors,
+          duplicatesRemoved: duplicates,
+          apiRequests: processed * 2 + discovered,
+          runtimeSeconds: Math.round(elapsed),
+          estimatedRemainingSeconds: estRemaining,
+        });
+
+        if (statusRes.current_username) {
+          setCurrentProfile({
+            id: statusRes.current_username,
+            username: statusRes.current_username,
+            followers: 0,
+            following: 0,
+            posts: 0,
+            websiteFound: false,
+            emailFound: false,
+            phoneFound: false,
+            isBusiness: false,
+            isVerified: false,
+            businessCategory: null,
+            aiScore: 0,
+            decision: "Qualified",
+            reasoning: ["Currently parsing profile from Instagram..."],
+            avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(statusRes.current_username)}&background=6366f1&color=fff`,
+          });
         }
-        
-        return newProgress;
+      }
+
+      // 2. Get real execution logs from DB
+      const logs = await scraperApi.getLogs(campaignId, 40);
+      if (Array.isArray(logs)) {
+        setActivityLogs(
+          logs.map((l) => ({
+            id: l.id,
+            timestamp: l.created_at ? new Date(l.created_at) : new Date(),
+            message: l.message,
+            type: l.level === "CRITICAL" || l.level === "ERROR" ? "error" :
+                  l.level === "WARNING" ? "warning" : "info"
+          }))
+        );
+      }
+
+      // 3. Get real recently saved leads from DB
+      const leadsRes = await campaignsApi.getCampaignLeads(campaignId, {
+        limit: 10,
+        sort_by: "created_at",
+        sort_order: "desc"
       });
 
-      setMetrics(prev => {
-        const found = prev.profilesFound + Math.floor(Math.random() * 8);
-        const processing = Math.floor(Math.random() * 3) + 1;
-        const newCompleted = prev.completed + 1;
-        const queued = Math.max(0, found - newCompleted - processing);
-        const dupes = prev.duplicatesRemoved + (Math.random() > 0.7 ? 1 : 0);
-        
-        return {
-          ...prev,
-          profilesFound: found,
-          queued,
-          processing,
-          completed: newCompleted,
-          duplicatesRemoved: dupes,
-          apiRequests: prev.apiRequests + Math.floor(Math.random() * 3) + 1,
-        };
-      });
-
-      if (progress > 40) {
-        if (stageCounter % 4 === 0) addLog("Checking website", "info");
-        else if (stageCounter % 5 === 0) addLog("Checking email", "info");
-        else if (stageCounter % 6 === 0) addLog("Checking phone", "info");
+      if (leadsRes && Array.isArray(leadsRes.items)) {
+        setRecentQualified(leadsRes.items.map(mapLeadToProfile));
       }
+    } catch (err) {
+      console.debug("Backend status polling error:", err);
+    }
+  }, [campaignId]);
 
-      if (progress > 60) {
-        const profile = generateFakeProfile();
-        setCurrentProfile(profile);
-        
-        setMetrics(prev => ({
-          ...prev,
-          qualified: profile.decision === "Qualified" ? prev.qualified + 1 : prev.qualified,
-          rejected: profile.decision === "Rejected" ? prev.rejected + 1 : prev.rejected,
-        }));
+  useEffect(() => {
+    // Initial fetch
+    pollBackend();
 
-        if (profile.decision === "Qualified") {
-          setRecentQualified(prev => [profile, ...prev].slice(0, 10));
-          addLog(`AI Score: ${profile.aiScore}`, "success");
-          addLog("Lead Qualified", "success");
-        }
+    // Poll every 1.5 seconds
+    const interval = setInterval(pollBackend, 1500);
+    return () => clearInterval(interval);
+  }, [pollBackend]);
+
+  const pause = useCallback(async () => {
+    try {
+      await scraperApi.stopScraper(campaignId);
+      setStatus("Paused");
+    } catch (e) {
+      console.error("Failed to pause scraper:", e);
+    }
+  }, [campaignId]);
+
+  const resume = useCallback(async () => {
+    try {
+      if (campaign) {
+        const config = campaign.config || {};
+        await scraperApi.startScraper({
+          campaign_id: campaignId,
+          search_mode: (config.scraperType === "Comment Scraper" ? "COMMENT" : "COMMENT"),
+          source_query: (config.postUrls && config.postUrls[0]) || "",
+          post_urls: config.postUrls || [],
+          max_profiles: config.maxProfiles || 100,
+        });
+        setStatus("Running");
       }
+    } catch (e) {
+      console.error("Failed to resume scraper:", e);
+    }
+  }, [campaignId, campaign]);
 
-    }, 2000);
-
-    return () => {
-      if (loopRef.current) clearInterval(loopRef.current);
-      if (runtimeRef.current) clearInterval(runtimeRef.current);
-    };
-  }, [status, progress, pipelineStage, addLog]);
-
-  const pause = useCallback(() => {
-    setStatus("Paused" as any);
-    addLog("Campaign Paused by user", "warning");
-  }, [addLog]);
-
-  const resume = useCallback(() => {
-    setStatus("Collecting");
-    addLog("Campaign Resumed", "info");
-  }, [addLog]);
-
-  const stop = useCallback(() => {
-    setStatus("Completed");
-    setPipelineStage("Completed");
-    setProgress(100);
-    setCurrentProfile(null);
-    setMetrics(prev => ({ ...prev, processing: 0, queued: 0 }));
-    addLog("Campaign Stopped and Saved", "success");
-  }, [addLog]);
+  const stop = useCallback(async () => {
+    try {
+      await scraperApi.stopScraper(campaignId);
+      setStatus("Stopped");
+    } catch (e) {
+      console.error("Failed to stop scraper:", e);
+    }
+  }, [campaignId]);
 
   return {
     campaign,
-    isLoading,
+    isLoading: isCampaignLoading,
     metrics,
     currentProfile,
     recentQualified,
@@ -315,6 +291,6 @@ export function useCampaignSimulation(campaignId: string): CampaignSimulation {
     status,
     pause,
     resume,
-    stop
+    stop,
   };
 }

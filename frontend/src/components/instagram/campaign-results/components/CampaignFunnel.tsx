@@ -1,15 +1,26 @@
 import React from "react";
 import { ArrowDown } from "lucide-react";
+import { ResultLead } from "../types/results";
 
-export function CampaignFunnel() {
+interface CampaignFunnelProps {
+  leads?: ResultLead[];
+}
+
+export function CampaignFunnel({ leads = [] }: CampaignFunnelProps) {
+  const total = leads.length;
+  const withWebsite = leads.filter(l => Boolean(l.website)).length;
+  const withEmail = leads.filter(l => Boolean(l.email)).length;
+  const withPhone = leads.filter(l => Boolean(l.phone)).length;
+  const qualified = leads.filter(l => l.status === "Qualified").length;
+  const outreachReady = leads.filter(l => (l.email || l.phone) && l.aiScore >= 80).length;
+
   const steps = [
-    { label: "Profiles Found", count: "2,500" },
-    { label: "Passed Filters", count: "620" },
-    { label: "Enriched", count: "415" },
-    { label: "AI Qualified", count: "302" },
-    { label: "Saved", count: "121" },
-    { label: "Sent to CRM", count: "54" },
-    { label: "Outreach Started", count: "18" }
+    { label: "Leads Saved", count: total.toLocaleString() },
+    { label: "With Website", count: withWebsite.toLocaleString() },
+    { label: "With Email", count: withEmail.toLocaleString() },
+    { label: "With Phone", count: withPhone.toLocaleString() },
+    { label: "AI Qualified", count: qualified.toLocaleString() },
+    { label: "Outreach Ready", count: outreachReady.toLocaleString() }
   ];
 
   return (

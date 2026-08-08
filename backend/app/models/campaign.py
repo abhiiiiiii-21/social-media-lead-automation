@@ -1,4 +1,5 @@
-from typing import TYPE_CHECKING, List, Optional
+import json
+from typing import TYPE_CHECKING, List, Optional, Any, Dict
 
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -21,16 +22,24 @@ class Campaign(BaseModel):
     description: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
     @property
-    def config(self) -> dict:
+    def config(self) -> Dict[str, Any]:
         if self.description:
             try:
-                import json
                 data = json.loads(self.description)
                 if isinstance(data, dict):
                     return data
             except Exception:
                 pass
         return {}
+
+    @config.setter
+    def config(self, value: Any) -> None:
+        if isinstance(value, dict):
+            self.description = json.dumps(value)
+        elif isinstance(value, str):
+            self.description = value
+        else:
+            self.description = None
 
     # Relationships
     leads: Mapped[List["Lead"]] = relationship(

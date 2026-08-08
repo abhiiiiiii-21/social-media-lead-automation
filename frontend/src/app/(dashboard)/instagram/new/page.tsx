@@ -8,6 +8,7 @@ import { LiveSummaryCard } from "@/components/instagram/live-summary-card";
 import { ProfileInspector } from "@/components/instagram/inspector";
 import { ScraperType, ScrapingConfig } from "@/lib/types/instagram";
 import { useCreateCampaign } from "@/hooks/use-campaigns";
+import { scraperApi } from "@/lib/api/scraper";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ const SCRAPER_TYPES: ScraperType[] = [
 export default function NewCampaignPage() {
   const [selectedType, setSelectedType] = useState<ScraperType>("AI Discovery");
   const [config, setConfig] = useState<ScrapingConfig>({});
+  const [isStarting, setIsStarting] = useState(false);
   
   const { mutateAsync: createCampaign, isPending } = useCreateCampaign();
   const router = useRouter();
@@ -50,9 +52,10 @@ export default function NewCampaignPage() {
   }, [config, selectedType]);
 
   const handleStartScraping = async () => {
-    if (!isValid) return;
+    if (!isValid || isStarting || isPending) return;
 
     try {
+      setIsStarting(true);
       const campaign = await createCampaign({
         name: config.campaignName || "Instagram Campaign",
         platform: "Instagram",
@@ -61,9 +64,55 @@ export default function NewCampaignPage() {
           ...config
         }
       });
+
+      // Automatically launch the scraper worker on the backend
+      const searchMode = 
+        selectedType === "Comment Scraper" ? "COMMENT" :
+        selectedType === "Hashtag Scraper" ? "HASHTAG" :
+        selectedType === "Profile Scraper" ? "USERNAME" :
+        "KEYWORD";
+
+      const sourceQuery = 
+        (config.postUrls && config.postUrls[0]) || 
+        (config.hashtags && config.hashtags[0]) || 
+        (config.instagramUsernames && config.instagramUsernames[0]) ||
+        config.targetCustomer || 
+        "";
+
+      try {
+        await scraperApi.startScraper({
+          campaign_id: campaign.id,
+          account_name: "default",
+          search_mode: searchMode,
+          source_query: sourceQuery,
+          post_urls: config.postUrls || [],
+          keyword_filter: config.keywordFilter || null,
+          max_profiles: config.maxProfiles || 100,
+          include_replies: config.includeReplies !== false,
+          skip_duplicates: config.skipDuplicates !== false,
+          profile_enrichment: config.profileEnrichment !== false,
+          min_followers: config.minFollowers ? Number(config.minFollowers) : null,
+          max_followers: config.maxFollowers ? Number(config.maxFollowers) : null,
+          min_posts: config.minPosts ? Number(config.minPosts) : null,
+          max_posts: config.maxPosts ? Number(config.maxPosts) : null,
+          language: config.language || null,
+          country: config.country || null,
+          business_category: config.businessCategory || null,
+          is_business_required: Boolean(config.isBusinessRequired),
+          is_verified_required: Boolean(config.isVerifiedRequired),
+          is_email_required: Boolean(config.isEmailRequired),
+          is_phone_required: Boolean(config.isPhoneRequired),
+          is_website_required: Boolean(config.isWebsiteRequired),
+        });
+      } catch (startErr) {
+        console.warn("Scraper start API response:", startErr);
+        // Continue to campaign page even if background worker already queued
+      }
+
       router.push(`/instagram/campaigns/${campaign.id}`);
     } catch (error) {
-      console.error("Failed to start scraping campaign", error);
+      console.error("Failed to create and start scraping campaign", error);
+      setIsStarting(false);
     }
   };
 
@@ -110,30 +159,30 @@ export default function NewCampaignPage() {
                     config={config}
                     setConfig={setConfig}
                   />
-                  
-                  {/* Fallback button for mobile below the form */}
-                  <div className="mt-8 lg:hidden">
-                    <Button 
-                      size="lg" 
-                      className="w-full font-medium" 
-                      onClick={handleStartScraping} 
-                      disabled={isPending || !isValid}
-                    >
-                      Start Scraping
-                    </Button>
-                  </div>
                 </CardContent>
               </Card>
             </section>
+            
+            {/* Mobile Submit Button */}
+            <div className="block lg:hidden">
+              <Button 
+                size="lg" 
+                className="w-full"
+                disabled={!isValid || isPending || isStarting}
+                onClick={handleStartScraping}
+              >
+                {isStarting || isPending ? "Starting Scraper..." : "Start Scraping Campaign"}
+              </Button>
+            </div>
           </div>
 
-          <div className="hidden lg:block lg:col-span-1 relative">
-            <LiveSummaryCard 
+          <div className="space-y-6">
+            <LiveSummaryCard
               type={selectedType}
               config={config}
-              isPending={isPending}
-              onSubmit={handleStartScraping}
               isValid={isValid}
+              isPending={isPending || isStarting}
+              onSubmit={handleStartScraping}
             />
           </div>
         </div>

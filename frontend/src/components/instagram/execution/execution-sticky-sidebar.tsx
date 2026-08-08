@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Pause, Play, Square, ExternalLink, Download, Copy, AlertCircle, CheckCircle2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { campaignsApi } from "@/lib/api/campaigns";
 
 export function ExecutionStickySidebar({ simulation }: { simulation: CampaignSimulation }) {
   const router = useRouter();
@@ -12,9 +13,12 @@ export function ExecutionStickySidebar({ simulation }: { simulation: CampaignSim
   if (!campaign) return null;
 
   const isRunning = !["Completed", "Failed", "Paused", "Pending"].includes(status as any);
-  const isPaused = status === ("Paused" as any); // eslint-disable-line @typescript-eslint/no-unused-vars
   const isCompleted = status === "Completed";
   const isFailed = status === "Failed";
+
+  const handleExportCsv = () => {
+    window.open(campaignsApi.getExportUrl(campaign.id, "csv"), "_blank");
+  };
 
   return (
     <Card className="rounded-xl border-border/50 bg-background/50 shadow-sm sticky top-6">
@@ -64,22 +68,19 @@ export function ExecutionStickySidebar({ simulation }: { simulation: CampaignSim
         </div>
 
         <div className="p-4 flex flex-col gap-3">
-          {isCompleted && (
-            <Button variant="default" className="w-full justify-start font-medium animate-in fade-in zoom-in-95" onClick={() => router.push(`/instagram/campaigns/${campaign.id}/results`)}>
-              <ExternalLink className="mr-2 h-4 w-4" /> View Results
-            </Button>
-          )}
-          <Button variant="outline" className="w-full justify-start font-medium" disabled={!isCompleted}>
+          <Button variant="default" className="w-full justify-start font-medium animate-in fade-in zoom-in-95" onClick={() => router.push(`/instagram/campaigns/${campaign.id}/results`)}>
+            <ExternalLink className="mr-2 h-4 w-4" /> View Results Table
+          </Button>
+          <Button variant="outline" className="w-full justify-start font-medium" onClick={handleExportCsv} disabled={metrics.qualified === 0}>
             <Download className="mr-2 h-4 w-4" /> Export CSV
           </Button>
-          <Button variant="outline" className="w-full justify-start font-medium text-muted-foreground">
-            <Copy className="mr-2 h-4 w-4" /> Duplicate Campaign
+          <Button 
+            variant="outline" 
+            className="w-full justify-start font-medium text-muted-foreground"
+            onClick={() => router.push(`/instagram/new`)}
+          >
+            <Copy className="mr-2 h-4 w-4" /> New Campaign
           </Button>
-          {isCompleted && (
-            <Button variant="outline" className="w-full justify-start font-medium text-muted-foreground animate-in fade-in slide-in-from-top-2">
-              <Play className="mr-2 h-4 w-4" /> Run Again
-            </Button>
-          )}
         </div>
       </CardContent>
     </Card>

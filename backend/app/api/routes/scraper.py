@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -31,9 +31,26 @@ async def start_scraping(
             campaign_id=request.campaign_id,
             account_name=request.account_name,
             search_mode=request.search_mode,
-            source_query=request.source_query,
+            source_query=request.source_query or "",
+            post_urls=request.post_urls,
+            keyword_filter=request.keyword_filter,
             max_profiles=request.max_profiles,
-            max_scrolls=request.max_scrolls
+            max_scrolls=request.max_scrolls,
+            include_replies=request.include_replies,
+            skip_duplicates=request.skip_duplicates,
+            profile_enrichment=request.profile_enrichment,
+            min_followers=request.min_followers,
+            max_followers=request.max_followers,
+            min_posts=request.min_posts,
+            max_posts=request.max_posts,
+            language=request.language,
+            country=request.country,
+            business_category=request.business_category,
+            is_business_required=request.is_business_required,
+            is_verified_required=request.is_verified_required,
+            is_email_required=request.is_email_required,
+            is_phone_required=request.is_phone_required,
+            is_website_required=request.is_website_required,
         )
     except ValueError as e:
         raise HTTPException(
@@ -46,7 +63,7 @@ async def start_scraping(
             detail=str(e)
         )
         
-    return {"message": "Scraping started"}
+    return {"message": "Scraping started", "campaign_id": request.campaign_id}
 
 
 @router.post(
@@ -81,16 +98,26 @@ async def get_scraping_status(
     campaign_id: str,
 ) -> ScraperStatusResponse:
     """
-    Get live progress stats for a campaign.
+    Get live progress stats and current stage for a campaign.
     """
     stats = get_job_stats(campaign_id)
     if stats is None:
-        return ScraperStatusResponse(campaign_id=campaign_id, is_running=False, stats=None)
+        return ScraperStatusResponse(
+            campaign_id=campaign_id, 
+            is_running=False, 
+            status="PENDING",
+            stage="Queued",
+            stats=None
+        )
         
     is_running = stats.get("status") in ["INITIALIZING", "RUNNING"]
     return ScraperStatusResponse(
         campaign_id=campaign_id,
         is_running=is_running,
+        status=stats.get("status", "RUNNING"),
+        stage=stats.get("stage", "Starting"),
+        current_username=stats.get("current_username"),
+        current_url=stats.get("current_url"),
         stats=stats
     )
 
@@ -105,9 +132,14 @@ async def get_scraping_logs(
     session: AsyncSession = Depends(get_db),
 ) -> List[dict]:
     """
-    Get detailed logs for a campaign.
+    Get detailed execution logs for a campaign from database.
     """
-    stmt = select(ExecutionLog).where(ExecutionLog.campaign_id == campaign_id).order_by(ExecutionLog.created_at.desc()).limit(limit)
+    stmt = (
+        select(ExecutionLog)
+        .where(ExecutionLog.campaign_id == campaign_id)
+        .order_by(ExecutionLog.created_at.desc())
+        .limit(limit)
+    )
     result = await session.execute(stmt)
     logs = result.scalars().all()
     
@@ -116,7 +148,7 @@ async def get_scraping_logs(
             "id": log.id,
             "level": log.level,
             "message": log.message,
-            "created_at": log.created_at
+            "created_at": log.created_at.isoformat() if log.created_at else None
         }
         for log in logs
     ]
@@ -136,4 +168,3 @@ async def inspect_single_profile(
     """
     service = ProfileInspectorService(session)
     return await service.inspect(request)
-

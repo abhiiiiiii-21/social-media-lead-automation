@@ -2,7 +2,7 @@ import React from "react";
 import { CampaignSimulation } from "@/hooks/use-campaign-simulation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Loader2, PauseCircle, CheckCircle2, AlertCircle } from "lucide-react";
+import { ArrowLeft, Loader2, PauseCircle, CheckCircle2, AlertCircle, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function ExecutionHeader({ simulation }: { simulation: CampaignSimulation }) {
@@ -20,6 +20,7 @@ export function ExecutionHeader({ simulation }: { simulation: CampaignSimulation
       case "Enriching":
       case "Scoring":
       case "Saving":
+      case "Running":
         return <Loader2 className="h-4 w-4 animate-spin text-blue-500" />;
       case "Paused":
         return <PauseCircle className="h-4 w-4 text-amber-500" />;
@@ -74,20 +75,29 @@ export function ExecutionHeader({ simulation }: { simulation: CampaignSimulation
         </div>
       </div>
       
-      {/* Live Header Counters */}
+      {/* Live Header Counters & View Results Button */}
       <div className="flex items-center gap-6 text-sm">
         <div className="flex flex-col items-end">
           <span className="text-muted-foreground text-xs uppercase tracking-wider font-semibold mb-0.5">Progress</span>
           <span className="font-medium font-mono">{progress.toFixed(1)}%</span>
         </div>
         <div className="flex flex-col items-end">
-          <span className="text-muted-foreground text-xs uppercase tracking-wider font-semibold mb-0.5">Leads Found</span>
-          <span className="font-medium font-mono">{metrics.profilesFound.toLocaleString()}</span>
+          <span className="text-muted-foreground text-xs uppercase tracking-wider font-semibold mb-0.5">Leads Saved</span>
+          <span className="font-medium font-mono">{metrics.qualified.toLocaleString()}</span>
         </div>
         <div className="flex flex-col items-end">
           <span className="text-muted-foreground text-xs uppercase tracking-wider font-semibold mb-0.5">Runtime</span>
           <span className="font-medium font-mono">{formatRuntime(metrics.runtimeSeconds)}</span>
         </div>
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-9 ml-2"
+          onClick={() => router.push(`/instagram/campaigns/${campaign.id}/results`)}
+        >
+          <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
+          View Results
+        </Button>
       </div>
     </div>
   );

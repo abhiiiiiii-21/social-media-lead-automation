@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import { useCampaignResults } from "@/components/instagram/campaign-results/hooks/useCampaignResults";
 import { ResultsHeader } from "@/components/instagram/campaign-results/components/ResultsHeader";
 import { CampaignFunnel } from "@/components/instagram/campaign-results/components/CampaignFunnel";
@@ -12,8 +12,10 @@ import { SavedViewsBar } from "@/components/instagram/campaign-results/component
 import { ResultsMetricsGrid } from "@/components/instagram/campaign-results/components/ResultsMetricsGrid";
 import { Loader2 } from "lucide-react";
 
-export default function CampaignResultsPage() {
+export default function CampaignResultsPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
   const {
+    campaign,
     leads,
     isLoading,
     selectedIds,
@@ -22,6 +24,7 @@ export default function CampaignResultsPage() {
     sortConfig,
     savedViews,
     visibleColumns,
+    refetch,
     setSearchTerm,
     setDrawerOpenId,
     handleSort,
@@ -30,14 +33,14 @@ export default function CampaignResultsPage() {
     setSelectedIds,
     toggleSavedView,
     setVisibleColumns
-  } = useCampaignResults();
+  } = useCampaignResults(resolvedParams.id);
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-[calc(100vh-200px)]">
         <div className="flex flex-col items-center gap-4 text-muted-foreground">
           <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-          <p className="font-medium">Loading campaign results...</p>
+          <p className="font-medium">Loading campaign results from database...</p>
         </div>
       </div>
     );
@@ -45,9 +48,13 @@ export default function CampaignResultsPage() {
 
   return (
     <div className="flex flex-col gap-6 pb-20 max-w-full">
-      <ResultsHeader totalCount={leads.length} />
+      <ResultsHeader 
+        totalCount={leads.length} 
+        campaign={campaign} 
+        onRefresh={refetch}
+      />
       
-      <CampaignFunnel />
+      <CampaignFunnel leads={leads} />
 
       <ResultsMetricsGrid leads={leads} />
 
